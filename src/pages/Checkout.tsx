@@ -22,28 +22,17 @@ import InputBox from "../components/boxes/input";
 import PaymentMethods from "../components/ui/paymentMethods";
 import CheckoutProduct from "../components/ui/checkoutProduct";
 import Button from "../components/ui/button";
+// hooks
+import useSlices from "../hooks/useSlices";
 // data
-const Order = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjYWtlfGVufDF8fHx8MTc4MTU4NTc4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Decadent Chocolate Truffle",
-    quantity: 2,
-    price: 45,
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaG9jb2xhdGUlMjBjYWtlfGVufDF8fHx8MTc4MTU4NTc4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-    title: "Decadent Chocolate Truffle",
-    quantity: 2,
-    price: 45,
-  },
-];
-
 const DELIVERY_FEE = 5;
 
 // main
 const Checkout: FC = () => {
+  // redux
+  const { data } = useSlices("globalController");
+  const { cartDetails, totalPrice } = data;
+
   // form info
   const [formData, setFormData] = useState<FormInfo>({
     firstName: "",
@@ -61,12 +50,11 @@ const Checkout: FC = () => {
   });
 
   // total pay
-  const subtotal = Order.reduce((acc, curr) => acc + curr.price, 0);
-  const totalCount = subtotal + DELIVERY_FEE;
+  const totalCount = totalPrice + DELIVERY_FEE;
   const priceFields = [
     {
       title: "Subtotal",
-      value: subtotal,
+      value: totalPrice,
     },
     {
       title: "Delivery",
@@ -196,8 +184,16 @@ const Checkout: FC = () => {
 
             {/* products */}
             <div className="space-y-4 mb-6">
-              {Order.map((item, index) => (
-                <CheckoutProduct key={index} product={item} />
+              {cartDetails.map((item, index) => (
+                <CheckoutProduct
+                  key={index}
+                  product={{
+                    image: item.image,
+                    title: item.name,
+                    quantity: item.quantity,
+                    price: item.price,
+                  }}
+                />
               ))}
             </div>
 
