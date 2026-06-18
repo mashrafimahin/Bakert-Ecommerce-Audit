@@ -1,6 +1,12 @@
 // dependencies
 import { createSlice } from "@reduxjs/toolkit";
 
+// utils
+import {
+  loadCartFromStorage,
+  saveCartToStorage,
+} from "../../utils/cartStorage";
+
 // types
 export interface CartItem {
   id: string;
@@ -22,11 +28,17 @@ interface GlobalState {
   totalPrice: number;
 }
 
+// load cart data
+const cartFromStorage = loadCartFromStorage();
+
 const initialState: GlobalState = {
   showPopup: false,
-  cartCount: 0,
-  cartDetails: [],
-  totalPrice: 0,
+  cartCount: cartFromStorage.length,
+  cartDetails: cartFromStorage,
+  totalPrice: cartFromStorage.reduce(
+    (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
+    0,
+  ),
 };
 
 // slice
@@ -56,6 +68,8 @@ const GlobalSlice = createSlice({
         (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
+
+      saveCartToStorage(state.cartDetails);
     },
     handleAddCart: (state, action) => {
       // check
@@ -70,6 +84,8 @@ const GlobalSlice = createSlice({
         (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
+
+      saveCartToStorage(state.cartDetails);
     },
     handleRemoveItem: (state, action) => {
       state.cartDetails = state.cartDetails.filter(
@@ -80,6 +96,8 @@ const GlobalSlice = createSlice({
         (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
+
+      saveCartToStorage(state.cartDetails);
     },
   },
 });
