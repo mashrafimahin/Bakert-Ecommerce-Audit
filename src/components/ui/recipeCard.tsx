@@ -1,6 +1,6 @@
 // dependencies
-// dependencies
 import { useState, type FC } from "react";
+import { useNavigate } from "react-router";
 // controller
 import useSlices from "../../hooks/useSlices";
 import { handleAddCart } from "../../app/features/globalController";
@@ -23,6 +23,7 @@ const RecipeCard: FC<RecipeType> = ({ recipe }) => {
   // state
   const { dispatch } = useSlices("globalController");
   const [btnState, setBtnState] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // handle add
   const handleAdd = (): void => {
@@ -36,7 +37,8 @@ const RecipeCard: FC<RecipeType> = ({ recipe }) => {
   return (
     <div
       key={recipe.id}
-      className="group bg-[#2C3333] rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 relative text-white"
+      className="group bg-[#2C3333] rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 relative text-white cursor-pointer"
+      onClick={() => navigate(`/product/${recipe.id}`)}
     >
       <div className="absolute top-4 right-4 bg-[#A5C9CA] text-[#2C3333] text-xs font-black px-4 py-1.5 rounded-full z-10 tracking-wide">
         DIGITAL RECIPE
@@ -60,16 +62,18 @@ const RecipeCard: FC<RecipeType> = ({ recipe }) => {
           <span className="font-black text-2xl text-[#E7F6F2]">
             ${recipe.price.toFixed(2)}
           </span>
-          <Button variant="secondary" buttonHandler={handleAdd}>
-            {btnState ? (
-              <>
-                <CheckCheck size={20} className="text-green-400" />
-                &nbsp; Added
-              </>
-            ) : (
-              "Buy Recipe"
-            )}
-          </Button>
+          <div onClick={(e) => e.stopPropagation()}>
+            <Button variant="secondary" buttonHandler={handleAdd}>
+              {btnState ? (
+                <>
+                  <CheckCheck size={20} className="text-green-400" />
+                  &nbsp; Added
+                </>
+              ) : (
+                "Buy Recipe"
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
