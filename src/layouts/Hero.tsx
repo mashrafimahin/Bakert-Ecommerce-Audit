@@ -1,5 +1,8 @@
 // dependencies
 import type { FC } from "react";
+// controller
+import useSlices from "../hooks/useSlices";
+import { setActiveCategory } from "../app/features/productController";
 // icons
 import { ArrowRight, Star } from "lucide-react";
 // data (static)
@@ -8,6 +11,14 @@ import Button from "../components/ui/button";
 
 // main
 const Hero: FC = () => {
+  // state
+  const { dispatch } = useSlices("productController");
+
+  // handle click
+  const handleClick = (): void => {
+    dispatch(setActiveCategory("recipe"));
+  };
+
   return (
     <section className="relative overflow-hidden py-20">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col lg:flex-row items-center gap-12">
@@ -32,6 +43,7 @@ const Hero: FC = () => {
             <Button
               variant="link"
               link="shop"
+              buttonHandler={handleClick}
               className="bg-white hover:bg-[#A5C9CA]/20 text-[#395B64] border-2 border-[#395B64] px-8 py-4 rounded-full font-bold transition-colors whitespace-nowrap flex items-center gap-2"
             >
               {HeroData.buttonTwo} <ArrowRight className="w-5 h-5" />
