@@ -1,5 +1,6 @@
 // dependencies
 import { useState, type FC } from "react";
+import { useNavigate } from "react-router";
 // controller
 import useSlices from "../../hooks/useSlices";
 import { handleAddCart } from "../../app/features/globalController";
@@ -25,6 +26,7 @@ const ProductCardView: FC<ProductData> = ({ product }) => {
   // state
   const { dispatch } = useSlices("globalController");
   const [btnState, setBtnState] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // handle add
   const handleAdd = (): void => {
@@ -35,8 +37,16 @@ const ProductCardView: FC<ProductData> = ({ product }) => {
     }, 1000);
   };
 
+  // handle click
+  const handleClick = (): void => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <div className="group bg-white rounded-lg border border-[#A5C9CA]/20 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
+    <div
+      onClick={handleClick}
+      className="group bg-white rounded-lg border border-[#A5C9CA]/20 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col cursor-pointer"
+    >
       {/* image */}
       <div className="relative aspect-4/3 overflow-hidden bg-[#E7F6F2]">
         <img
@@ -69,16 +79,18 @@ const ProductCardView: FC<ProductData> = ({ product }) => {
           </span>
         </div>
 
-        <Button variant="primary" buttonHandler={handleAdd} className="mt-4">
-          {btnState ? (
-            <>
-              <CheckCheck size={20} className="text-green-400" />
-              &nbsp; Added
-            </>
-          ) : (
-            "Add To Cart"
-          )}
-        </Button>
+        <div onClick={(e) => e.stopPropagation()}>
+          <Button variant="primary" buttonHandler={handleAdd} className="mt-4">
+            {btnState ? (
+              <>
+                <CheckCheck size={20} className="text-green-400" />
+                &nbsp; Added
+              </>
+            ) : (
+              "Add To Cart"
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );
