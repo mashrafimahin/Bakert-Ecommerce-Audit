@@ -24,7 +24,7 @@ const Sidebar: FC = () => {
   const { data, dispatch } = useSlices("productController");
 
   return (
-    <aside className="w-full md:w-64 shrink-0">
+    <aside className="w-full hidden md:block md:w-64 shrink-0">
       <div className="sticky top-28 space-y-8 bg-white p-6 rounded-3xl shadow-sm border border-[#A5C9CA]/30">
         <div>
           <Typography
