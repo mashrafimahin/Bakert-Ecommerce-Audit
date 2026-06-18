@@ -19,8 +19,11 @@ const Shopping: FC = () => {
   }, [dispatch]);
 
   // filter  products
-  const PRODUCTS = data.allProducts.filter(
-    (item) => item.category !== "recipe",
+  const filteredProducts = data.allProducts.filter(
+    (item) =>
+      item.category !== "recipe" &&
+      (!data.searchQuery ||
+        item.name.toLowerCase().includes(data.searchQuery.toLowerCase())),
   );
   const RECIPES = data.allProducts
     .filter((item) => item.category === "recipe")
@@ -38,14 +41,23 @@ const Shopping: FC = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PRODUCTS.map((product) => (
-            <ProductCardView key={product.id} product={product} />
-          ))}
+          {filteredProducts.length > 0 ? (
+            <>
+              {filteredProducts.map((product) => (
+                <ProductCardView key={product.id} product={product} />
+              ))}
 
-          {/* Recipes Section if selected */}
-          {RECIPES.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
-          ))}
+              {/* Recipes Section if selected */}
+              {data.recipeVisible &&
+                RECIPES.map((recipe) => (
+                  <RecipeCard key={recipe.id} recipe={recipe} />
+                ))}
+            </>
+          ) : (
+            <p className="text-gray-500 text-lg font-semibold mx-auto">
+              No product found named "{data.searchQuery}"
+            </p>
+          )}
         </div>
       </div>
     </div>

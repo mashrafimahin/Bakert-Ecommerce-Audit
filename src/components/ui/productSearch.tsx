@@ -8,12 +8,14 @@ import Typography from "../typography";
 // components
 // layouts
 // data
+import useSlices from "../../hooks/useSlices";
+import { setSearchQuery } from "../../app/features/productController";
 
 // main
 const ProductSearch: FC = () => {
   // state
   const [inputValue, setInputValue] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const { dispatch } = useSlices("productController");
 
   // ref for debounce timer
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -28,7 +30,7 @@ const ProductSearch: FC = () => {
       clearTimeout(debounceRef.current);
     }
     debounceRef.current = setTimeout(() => {
-      setSearchQuery(value.trim());
+      dispatch(setSearchQuery(value.trim()));
     }, 900);
   };
 
