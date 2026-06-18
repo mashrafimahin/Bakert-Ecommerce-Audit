@@ -1,5 +1,9 @@
 // dependencies
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { productHandler } from "../../handlers/productHandler";
 // types
 import type { CartItem } from "./globalController";
@@ -9,6 +13,8 @@ interface ProductState {
   error: boolean;
   message: string;
   allProducts: CartItem[];
+  searchQuery: string;
+  recipeVisible: boolean;
 }
 
 const initialState: ProductState = {
@@ -16,6 +22,8 @@ const initialState: ProductState = {
   error: false,
   message: "",
   allProducts: [],
+  searchQuery: "",
+  recipeVisible: true,
 };
 
 // data fetch thunk
@@ -28,25 +36,35 @@ export const productThunk = createAsyncThunk("product/fetch", async () => {
 const ProductSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      if (!action.payload) {
+        state.recipeVisible = true;
+      }
+      state.searchQuery = action.payload;
+      state.recipeVisible = false;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(productThunk.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(productThunk.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.allProducts = action.payload.map((item) => ({
-        ...item,
-        quantity: 1,
-      }));
-    });
-    builder.addCase(productThunk.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = true;
-      state.message = action.error.message ?? "Something went wrong";
-    });
+    builder
+      .addCase(productThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(productThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.allProducts = action.payload.map((item) => ({
+          ...item,
+          quantity: 1,
+        }));
+      })
+      .addCase(productThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = true;
+        state.message = action.error.message ?? "Something went wrong";
+      });
   },
 });
 
 // exports
 export default ProductSlice.reducer;
+export const { setSearchQuery } = ProductSlice.actions;
