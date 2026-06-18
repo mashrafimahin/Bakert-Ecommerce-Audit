@@ -4,7 +4,7 @@ import { type FC, useEffect } from "react";
 import Navbar from "../components/ui/navbar";
 import Footer from "../components/ui/footer";
 // layouts
-import ProductDetailsLayout from "../layouts/productDetails";
+import ProductDetailsLayout from "../layouts/productLayout";
 
 // main
 const ProductDetails: FC = () => {
