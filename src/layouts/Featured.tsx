@@ -1,5 +1,5 @@
 // dependencies
-import { type FC } from "react";
+import { type FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 // typography
 import Typography from "../components/typography";
@@ -9,10 +9,23 @@ import { ArrowRight } from "lucide-react";
 import ProductCard from "../components/ui/productCard";
 // data
 import { FeaturedData } from "../static";
-import { PRODUCTS } from "../data";
+import useSlices from "../hooks/useSlices";
+import { productThunk } from "../app/features/productController";
 
 // main
 const Featured: FC = () => {
+  // state
+  const { data, dispatch } = useSlices("productController");
+
+  // fetch products on mount
+  useEffect(() => {
+    dispatch(productThunk());
+  }, [dispatch]);
+
+  const PRODUCTS = data.allProducts.filter(
+    (item) => item.category !== "recipe",
+  );
+
   return (
     <section className="py-24 bg-white rounded-t-[3rem] shadow-sm relative z-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

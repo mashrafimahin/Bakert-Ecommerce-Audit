@@ -1,15 +1,31 @@
 // dependencies
-import { type FC } from "react";
+import { type FC, useEffect } from "react";
 // components
 import ProductSearch from "../components/ui/productSearch";
 import ProductCardView from "../components/ui/productCardView";
 import RecipeCard from "../components/ui/recipeCard";
 import Sidebar from "../components/ui/sidebar";
-// data
-import { PRODUCTS, RECIPES } from "../data";
+import useSlices from "../hooks/useSlices";
+import { productThunk } from "../app/features/productController";
 
 // main
 const Shopping: FC = () => {
+  // state
+  const { data, dispatch } = useSlices("productController");
+
+  // fetch products on mount
+  useEffect(() => {
+    dispatch(productThunk());
+  }, [dispatch]);
+
+  // filter  products
+  const PRODUCTS = data.allProducts.filter(
+    (item) => item.category !== "recipe",
+  );
+  const RECIPES = data.allProducts
+    .filter((item) => item.category === "recipe")
+    .slice(0, 1);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex flex-col md:flex-row gap-10 bg-[#E7F6F2] min-h-screen">
       {/* Sidebar Filters */}

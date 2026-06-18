@@ -4,11 +4,11 @@ interface ProductData {
     category: string;
     id: string;
     image: string;
-    isNew: boolean;
+    isNew?: boolean;
     name: string;
     price: number;
-    rating: number;
-    reviews: number;
+    rating?: number;
+    reviews?: number;
   };
 }
 // dependencies

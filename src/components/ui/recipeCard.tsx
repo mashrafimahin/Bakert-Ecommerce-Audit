@@ -36,7 +36,7 @@ const RecipeCard: FC<RecipeType> = ({ recipe }) => {
   return (
     <div
       key={recipe.id}
-      className="group bg-[#2C3333] rounded-3xl overflow-hidden hover:shadow-xl transition-shadow duration-300 relative text-white"
+      className="group bg-[#2C3333] rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 relative text-white"
     >
       <div className="absolute top-4 right-4 bg-[#A5C9CA] text-[#2C3333] text-xs font-black px-4 py-1.5 rounded-full z-10 tracking-wide">
         DIGITAL RECIPE
