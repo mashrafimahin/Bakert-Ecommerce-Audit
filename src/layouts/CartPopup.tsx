@@ -1,5 +1,8 @@
 // dependencies
-import { type FC } from "react";
+import { useState, type FC } from "react";
+import { useNavigate } from "react-router-dom";
+// utilities
+import { cn } from "../utils/ClassMerger";
 // controller
 import useSlices from "../hooks/useSlices";
 import type { CartItem } from "../app/features/globalController";
@@ -15,8 +18,11 @@ import Button from "../components/ui/button";
 
 // main
 const Cart: FC = () => {
+  // navigation
+  const navigation = useNavigate();
   // state
   const { data, dispatch } = useSlices("globalController");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // product data
   const product = data.cartDetails;
   // calculated data
@@ -53,6 +59,20 @@ const Cart: FC = () => {
         type: type,
       }),
     );
+  };
+
+  // handle checkout
+  const handleCheckout = (): void => {
+    // checking
+    if (data.cartDetails.length === 0) {
+      return;
+    }
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      navigation("checkout");
+      dispatch(handlePopup());
+    }, 1400);
   };
 
   return (
@@ -153,8 +173,23 @@ const Cart: FC = () => {
               <span>${totalPrice.toFixed(2)}</span>
             </div>
           </div>
-          <Button variant="primary" className="text-md">
-            Purchase Securely
+          <Button
+            variant="primary"
+            buttonHandler={handleCheckout}
+            className={cn(
+              "text-md",
+              isLoading ? "cursor-not-allowed bg-[#535757]" : "",
+            )}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center">
+                <div className="h-3 w-3 animate-spin rounded-full border-4 border-white border-t-transparent" />
+                &nbsp; Checking Details
+              </div>
+            ) : (
+              "Purchase Securely"
+            )}
           </Button>
         </div>
       </div>

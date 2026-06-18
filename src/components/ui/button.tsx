@@ -12,6 +12,7 @@ type ButtonType = {
   className?: string;
   children: React.ReactNode;
   type?: "button" | "submit" | "reset";
+  disabled?: React.ReactNode;
 };
 // pattern
 const pattern = {
