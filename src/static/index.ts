@@ -1,3 +1,6 @@
+// icons
+import { Award, Heart, ShieldCheck, Users } from "lucide-react";
+
 // hero
 export const HeroData = {
   headlineOne: "Artisan Cakes",
@@ -42,4 +45,56 @@ export const ServiceData = {
     "https://images.unsplash.com/photo-1535254973040-607b474cb50d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2FrZXxlbnwxfHx8fDE3ODE1ODU3ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
   imageTwo:
     "https://images.unsplash.com/photo-1588467850695-a898367ce465?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtpbmclMjByZWNpcGVzfGVufDF8fHx8MTc4MTU4NTc4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+};
+
+// about
+export const AboutData = {
+  description:
+    "Since our ovens first fired up, Bakert has been dedicated to crafting moments of joy through extraordinary baked goods. Our reputation is built on uncompromising quality and a genuine love for our community.",
+  overlayImage:
+    "https://images.unsplash.com/photo-1689037676470-b72230d5236e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtlcnklMjBpbnRlcmlvcnxlbnwxfHx8fDE3ODE3NzczMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+  authorImage:
+    "https://images.unsplash.com/photo-1542909192-2f2241a99c9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtlciUyMHBvcnRyYWl0fGVufDF8fHx8MTc4MTc3NzMzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+  author: "Mashrafi Mahin",
+  beginOne:
+    "It all started with a simple family recipe and a tiny storefront. Over the years, Bakert has grown from a well-kept neighborhood secret into a beloved city institution. We’ve always believed that the best cakes require patience, premium ingredients, and a touch of artistry.",
+  beginTwo:
+    "Today, our state-of-the-art kitchen continues to honor traditional methods while embracing modern culinary innovation. We don't just bake; we design edible experiences that turn your gatherings into lifelong memories.",
+  cards: [
+    {
+      id: 1,
+      icon: Award,
+      title: "Award-Winning",
+      para: "Consistently recognized by local food critics as the city's top destination for artisan pastries and custom wedding cakes.",
+    },
+    {
+      id: 2,
+      icon: ShieldCheck,
+      title: "Uncompromising Quality",
+      para: "We source organic, local ingredients whenever possible. No shortcuts, no artificial preservatives. Just real food.",
+    },
+    {
+      id: 3,
+      icon: Users,
+      title: "Community First",
+      para: "We proudly support local events and donate our surplus baked goods to community shelters every evening.",
+    },
+    {
+      id: 4,
+      icon: Heart,
+      title: "Crafted with Love",
+      para: "Every swirl of frosting and every delicate layer is applied with genuine care by our passionate team of pastry chefs.",
+    },
+  ],
+  ctaInfo: {
+    ctaImage:
+      "https://images.unsplash.com/photo-1509440159596-0249088772ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtpbmclMjBicmVhZHxlbnwxfHx8fDE3ODE3NzczMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    title: "The Art of the Craft",
+    para: "Baking is an exact science married to wild imagination. Our kitchen wakes up before the sun, ensuring that the aroma of fresh vanilla and warm chocolate greets our first customers.",
+    lists: [
+      "Sourcing the finest Belgian chocolate and Madagascar vanilla.",
+      "Slow-baking our layers to ensure a perfectly moist crumb.",
+      "Hand-decorating every piece so it's as unique as your celebration.",
+    ],
+  },
 };
