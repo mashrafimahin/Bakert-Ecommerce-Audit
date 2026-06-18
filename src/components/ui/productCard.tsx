@@ -13,6 +13,7 @@ interface ProductData {
 }
 // dependencies
 import { useState, type FC } from "react";
+import { useNavigate } from "react-router";
 // controller
 import useSlices from "../../hooks/useSlices";
 // icons
@@ -25,6 +26,7 @@ const ProductCard: FC<ProductData> = ({ product }) => {
   // state
   const { dispatch } = useSlices("globalController");
   const [btnState, setBtnState] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // handle add
   const handleAdd = (): void => {
@@ -35,8 +37,17 @@ const ProductCard: FC<ProductData> = ({ product }) => {
     }, 1000);
   };
 
+  // handle Click
+  const handleClick = (): void => {
+    navigate(`/product/${product.id}`);
+  };
+
   return (
-    <div key={product.id} className="group flex flex-col">
+    <div
+      key={product.id}
+      className="group flex flex-col cursor-pointer"
+      onClick={handleClick}
+    >
       <div className="relative aspect-4/5 rounded-3xl overflow-hidden mb-5 bg-[#E7F6F2]">
         <img
           src={product.image}
@@ -49,20 +60,22 @@ const ProductCard: FC<ProductData> = ({ product }) => {
             NEW
           </span>
         )}
-        <Button
-          variant="primary"
-          buttonHandler={handleAdd}
-          className="absolute max-w-55 ml-6 bottom-4 bg-white/95 backdrop-blur-sm text-[#2C3333] font-bold py-3 rounded-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#395B64] hover:text-white shadow-lg cursor-pointer"
-        >
-          {btnState ? (
-            <>
-              <CheckCheck size={20} className="text-green-400" />
-              &nbsp; Added
-            </>
-          ) : (
-            "Add To Cart"
-          )}
-        </Button>
+        <div onClick={(e) => e.stopPropagation()}>
+          <Button
+            variant="primary"
+            buttonHandler={handleAdd}
+            className="absolute max-w-55 ml-6 bottom-4 bg-white/95 backdrop-blur-sm text-[#2C3333] font-bold py-3 rounded-xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#395B64] hover:text-white shadow-lg cursor-pointer"
+          >
+            {btnState ? (
+              <>
+                <CheckCheck size={20} className="text-green-400" />
+                &nbsp; Added
+              </>
+            ) : (
+              "Add To Cart"
+            )}
+          </Button>
+        </div>
       </div>
       <div className="flex justify-between items-start gap-4 px-1">
         <div>
