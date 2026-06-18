@@ -11,7 +11,7 @@ export interface CartItem {
   reviews?: number;
   image: string;
   isNew?: boolean;
-  quantity: number;
+  quantity?: number;
 }
 
 // initial state
@@ -44,13 +44,16 @@ const GlobalSlice = createSlice({
       if (!item) return;
 
       if (action.payload.type === "increment") {
-        item.quantity += 1;
-      } else if (item.quantity > 1 && action.payload.type === "decrement") {
-        item.quantity -= 1;
+        item.quantity = (item.quantity ?? 0) + 1;
+      } else if (
+        (item.quantity ?? 0) > 1 &&
+        action.payload.type === "decrement"
+      ) {
+        item.quantity = (item.quantity ?? 0) - 1;
       }
 
       state.totalPrice = state.cartDetails.reduce(
-        (acc, curr) => acc + curr.price * curr.quantity,
+        (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
     },
@@ -64,7 +67,7 @@ const GlobalSlice = createSlice({
       state.cartDetails.push(action.payload);
       state.cartCount = state.cartDetails.length;
       state.totalPrice = state.cartDetails.reduce(
-        (acc, curr) => acc + curr.price * curr.quantity,
+        (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
     },
@@ -74,7 +77,7 @@ const GlobalSlice = createSlice({
       );
       state.cartCount = state.cartDetails.length;
       state.totalPrice = state.cartDetails.reduce(
-        (acc, curr) => acc + curr.price * curr.quantity,
+        (acc, curr) => acc + curr.price * (curr.quantity ?? 1),
         0,
       );
     },
