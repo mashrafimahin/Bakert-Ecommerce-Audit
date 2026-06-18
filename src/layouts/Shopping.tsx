@@ -1,22 +1,16 @@
 // dependencies
-import { type FC, useEffect } from "react";
+import { type FC } from "react";
 // components
 import ProductSearch from "../components/ui/productSearch";
 import ProductCardView from "../components/ui/productCardView";
 import RecipeCard from "../components/ui/recipeCard";
 import Sidebar from "../components/ui/sidebar";
 import useSlices from "../hooks/useSlices";
-import { productThunk } from "../app/features/productController";
 
 // main
 const Shopping: FC = () => {
   // state
-  const { data, dispatch } = useSlices("productController");
-
-  // fetch products on mount
-  useEffect(() => {
-    dispatch(productThunk());
-  }, [dispatch]);
+  const { data } = useSlices("productController");
 
   // filter  products by category + search query
   const filteredProducts = data.allProducts.filter((item) => {

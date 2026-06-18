@@ -1,5 +1,5 @@
 // dependencies
-import { type FC, useEffect } from "react";
+import { type FC } from "react";
 import { Link } from "react-router-dom";
 // typography
 import Typography from "../components/typography";
@@ -10,17 +10,11 @@ import ProductCard from "../components/ui/productCard";
 // data
 import { FeaturedData } from "../static";
 import useSlices from "../hooks/useSlices";
-import { productThunk } from "../app/features/productController";
 
 // main
 const Featured: FC = () => {
   // state
-  const { data, dispatch } = useSlices("productController");
-
-  // fetch products on mount
-  useEffect(() => {
-    dispatch(productThunk());
-  }, [dispatch]);
+  const { data } = useSlices("productController");
 
   const PRODUCTS = data.allProducts.filter(
     (item) => item.category !== "recipe",
