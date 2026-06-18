@@ -76,10 +76,13 @@ const Navbar: FC = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
-            <button className="p-2 text-[#2C3333] relative">
+            <button
+              onClick={handleClick}
+              className="p-2 text-[#2C3333] relative"
+            >
               <ShoppingBag className="h-5 w-5" />
               <span className="absolute top-1 right-1 h-4 w-4 bg-[#395B64] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                2
+                {data.cartCount || 0}
               </span>
             </button>
             <button
