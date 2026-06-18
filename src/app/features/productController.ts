@@ -1,10 +1,3 @@
-/**
- * Product Controller (Redux Slice)
- *
- * Manages product catalog state from the API/handler.
- * Provides a reducer to add new reviews to a specific product.
- */
-
 // dependencies
 import {
   createAsyncThunk,
@@ -14,8 +7,6 @@ import {
 import { productHandler } from "../../handlers/productHandler";
 // types
 import type { CartItem } from "./globalController";
-
-/** A single review entry attached to a product */
 export interface Review {
   id: number;
   author: string;
@@ -23,11 +14,6 @@ export interface Review {
   date: string;
   text: string;
 }
-
-/**
- * Extended product type that includes the reviewsList array.
- * Merges CartItem fields with Review metadata.
- */
 export interface ProductWithReviews extends CartItem {
   reviewsList: Review[];
 }
@@ -62,20 +48,12 @@ const ProductSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    /** Update the search query text */
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
-
-    /** Set the active category filter */
     setActiveCategory: (state, action: PayloadAction<string>) => {
       state.activeCategory = action.payload;
     },
-
-    /**
-     * Add a new review to a specific product's reviewsList.
-     * Payload: { productId: string, review: Review }
-     */
     addReview: (
       state,
       action: PayloadAction<{ productId: string; review: Review }>,
@@ -95,11 +73,7 @@ const ProductSlice = createSlice({
       })
       .addCase(productThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Assign each item a default quantity of 1 for cart usage
-        state.allProducts = action.payload.map((item) => ({
-          ...item,
-          quantity: 1,
-        })) as ProductWithReviews[];
+        state.allProducts.push(...action.payload);
       })
       .addCase(productThunk.rejected, (state, action) => {
         state.isLoading = false;
