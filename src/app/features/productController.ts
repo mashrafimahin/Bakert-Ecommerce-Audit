@@ -14,7 +14,7 @@ interface ProductState {
   message: string;
   allProducts: CartItem[];
   searchQuery: string;
-  recipeVisible: boolean;
+  activeCategory: string;
 }
 
 const initialState: ProductState = {
@@ -23,7 +23,7 @@ const initialState: ProductState = {
   message: "",
   allProducts: [],
   searchQuery: "",
-  recipeVisible: true,
+  activeCategory: "All",
 };
 
 // data fetch thunk
@@ -38,11 +38,10 @@ const ProductSlice = createSlice({
   initialState,
   reducers: {
     setSearchQuery: (state, action: PayloadAction<string>) => {
-      if (!action.payload) {
-        state.recipeVisible = true;
-      }
       state.searchQuery = action.payload;
-      state.recipeVisible = false;
+    },
+    setActiveCategory: (state, action: PayloadAction<string>) => {
+      state.activeCategory = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -67,4 +66,4 @@ const ProductSlice = createSlice({
 
 // exports
 export default ProductSlice.reducer;
-export const { setSearchQuery } = ProductSlice.actions;
+export const { setSearchQuery, setActiveCategory } = ProductSlice.actions;

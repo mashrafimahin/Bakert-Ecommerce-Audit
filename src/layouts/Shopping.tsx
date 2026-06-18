@@ -18,16 +18,29 @@ const Shopping: FC = () => {
     dispatch(productThunk());
   }, [dispatch]);
 
-  // filter  products
-  const filteredProducts = data.allProducts.filter(
-    (item) =>
-      item.category !== "recipe" &&
-      (!data.searchQuery ||
-        item.name.toLowerCase().includes(data.searchQuery.toLowerCase())),
+  // filter  products by category + search query
+  const filteredProducts = data.allProducts.filter((item) => {
+    // category filter
+    const matchesCategory =
+      data.activeCategory === "All" ||
+      (data.activeCategory === "Recipes"
+        ? item.category === "recipe"
+        : item.category === data.activeCategory);
+
+    // search filter
+    const matchesSearch =
+      !data.searchQuery ||
+      item.name.toLowerCase().includes(data.searchQuery.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+
+  // separate recipes from regular products for display
+  const PRODUCTS = filteredProducts.filter(
+    (item) => item.category !== "recipe",
   );
-  const RECIPES = data.allProducts
-    .filter((item) => item.category === "recipe")
-    .slice(0, 1);
+  const RECIPES = filteredProducts.filter((item) => item.category === "recipe");
+  const nothingFound = PRODUCTS.length === 0 && RECIPES.length === 0;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full flex flex-col md:flex-row gap-10 bg-[#E7F6F2] min-h-screen">
@@ -41,20 +54,18 @@ const Shopping: FC = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.length > 0 ? (
+          {!nothingFound ? (
             <>
-              {filteredProducts.map((product) => (
+              {PRODUCTS.map((product) => (
                 <ProductCardView key={product.id} product={product} />
               ))}
 
-              {/* Recipes Section if selected */}
-              {data.recipeVisible &&
-                RECIPES.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
-                ))}
+              {RECIPES.map((recipe) => (
+                <RecipeCard key={recipe.id} recipe={recipe} />
+              ))}
             </>
           ) : (
-            <p className="text-gray-500 text-lg font-semibold mx-auto">
+            <p className="text-gray-500 text-lg font-semibold mx-auto col-span-full">
               No product found named "{data.searchQuery}"
             </p>
           )}

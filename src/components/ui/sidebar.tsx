@@ -1,5 +1,5 @@
 // dependencies
-import { type FC, useState } from "react";
+import { type FC } from "react";
 // interface/@types
 // utilities
 // icons
@@ -7,6 +7,8 @@ import { type FC, useState } from "react";
 import Typography from "../typography";
 // layouts
 // data
+import useSlices from "../../hooks/useSlices";
+import { setActiveCategory } from "../../app/features/productController";
 const CATEGORIES = [
   "All",
   "Cakes",
@@ -19,7 +21,7 @@ const CATEGORIES = [
 // main
 const Sidebar: FC = () => {
   // state
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { data, dispatch } = useSlices("productController");
 
   return (
     <aside className="w-full md:w-64 shrink-0">
@@ -35,9 +37,9 @@ const Sidebar: FC = () => {
             {CATEGORIES.map((cat) => (
               <li key={cat}>
                 <button
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => dispatch(setActiveCategory(cat))}
                   className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold transition-all ${
-                    activeCategory === cat
+                    data.activeCategory === cat
                       ? "bg-[#395B64] text-white shadow-md shadow-[#395B64]/20"
                       : "text-[#395B64] hover:bg-[#E7F6F2]"
                   }`}
