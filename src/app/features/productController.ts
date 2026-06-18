@@ -70,10 +70,13 @@ const ProductSlice = createSlice({
     builder
       .addCase(productThunk.pending, (state) => {
         state.isLoading = true;
+        state.error = false;
+        state.message = "";
       })
       .addCase(productThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allProducts = action.payload;
+        // state.message = "";
       })
       .addCase(productThunk.rejected, (state, action) => {
         state.isLoading = false;
