@@ -89,7 +89,7 @@ const Contact: FC = () => {
         </div>
 
         {/* container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-[3rem] p-8 md:p-12 shadow-sm border border-[#A5C9CA]/30">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-2xl sm:rounded-3xl p-8 md:p-12 shadow-sm border border-[#A5C9CA]/30">
           {/* Contact Info */}
           <div className="space-y-10">
             <Typography variant="subHead">Contact Information</Typography>
@@ -116,7 +116,7 @@ const Contact: FC = () => {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-[#E7F6F2] p-8 rounded-3xl">
+          <div className="bg-[#E7F6F2] p-8 rounded-2xl sm:rounded-3xl">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputBox
