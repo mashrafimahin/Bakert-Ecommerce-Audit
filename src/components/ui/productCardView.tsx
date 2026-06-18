@@ -1,5 +1,8 @@
 // dependencies
-import type { FC } from "react";
+import { useState, type FC } from "react";
+// controller
+import useSlices from "../../hooks/useSlices";
+import { handleAddCart } from "../../app/features/globalController";
 // interface/@types
 export interface ProductData {
   product: {
@@ -14,11 +17,24 @@ export interface ProductData {
   };
 }
 // icons
-import { Star } from "lucide-react";
+import { CheckCheck, Star } from "lucide-react";
 import Button from "./button";
 
 // main
 const ProductCardView: FC<ProductData> = ({ product }) => {
+  // state
+  const { dispatch } = useSlices("globalController");
+  const [btnState, setBtnState] = useState<boolean>(false);
+
+  // handle add
+  const handleAdd = (): void => {
+    setBtnState(true);
+    dispatch(handleAddCart({ ...product, quantity: 1 }));
+    setTimeout(() => {
+      setBtnState(false);
+    }, 1000);
+  };
+
   return (
     <div className="group bg-white rounded-lg border border-[#A5C9CA]/20 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
       {/* image */}
@@ -53,8 +69,15 @@ const ProductCardView: FC<ProductData> = ({ product }) => {
           </span>
         </div>
 
-        <Button variant="primary" className="mt-4">
-          Add to Cart
+        <Button variant="primary" buttonHandler={handleAdd} className="mt-4">
+          {btnState ? (
+            <>
+              <CheckCheck size={20} className="text-green-400" />
+              &nbsp; Added
+            </>
+          ) : (
+            "Add To Cart"
+          )}
         </Button>
       </div>
     </div>

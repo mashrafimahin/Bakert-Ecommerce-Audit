@@ -1,19 +1,38 @@
 // dependencies
-import type { FC } from "react";
-import Button from "./button";
+// dependencies
+import { useState, type FC } from "react";
+// controller
+import useSlices from "../../hooks/useSlices";
+import { handleAddCart } from "../../app/features/globalController";
 // interface/@types
 interface RecipeType {
   recipe: {
-    difficulty: string;
     id: string;
     image: string;
     price: number;
-    title: string;
+    name: string;
   };
 }
+// icons
+import { CheckCheck } from "lucide-react";
+// components
+import Button from "./button";
 
 // main
 const RecipeCard: FC<RecipeType> = ({ recipe }) => {
+  // state
+  const { dispatch } = useSlices("globalController");
+  const [btnState, setBtnState] = useState<boolean>(false);
+
+  // handle add
+  const handleAdd = (): void => {
+    setBtnState(true);
+    dispatch(handleAddCart({ ...recipe, quantity: 1 }));
+    setTimeout(() => {
+      setBtnState(false);
+    }, 1000);
+  };
+
   return (
     <div
       key={recipe.id}
@@ -25,23 +44,32 @@ const RecipeCard: FC<RecipeType> = ({ recipe }) => {
       <div className="relative aspect-4/3 overflow-hidden opacity-70">
         <img
           src={recipe.image}
-          alt={recipe.title}
+          alt={recipe.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           draggable={false}
         />
       </div>
       <div className="absolute inset-0 bg-linear-to-t from-[#2C3333] via-[#2C3333]/60 to-transparent flex flex-col justify-end p-6">
         <h3 className="font-bold text-2xl leading-tight mb-2 text-[#E7F6F2]">
-          {recipe.title}
+          {recipe.name}
         </h3>
         <p className="text-sm text-[#A5C9CA] font-medium mb-6">
-          Difficulty: {recipe.difficulty}
+          Difficulty: Inter
         </p>
         <div className="flex justify-between items-center gap-4">
           <span className="font-black text-2xl text-[#E7F6F2]">
             ${recipe.price.toFixed(2)}
           </span>
-          <Button variant="secondary">Buy Recipe</Button>
+          <Button variant="secondary" buttonHandler={handleAdd}>
+            {btnState ? (
+              <>
+                <CheckCheck size={20} className="text-green-400" />
+                &nbsp; Added
+              </>
+            ) : (
+              "Buy Recipe"
+            )}
+          </Button>
         </div>
       </div>
     </div>
