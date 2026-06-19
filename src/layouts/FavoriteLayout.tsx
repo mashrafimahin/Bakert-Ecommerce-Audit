@@ -9,8 +9,8 @@ import ProductCardView from "../components/ui/productCardView";
 // main
 const FavoriteLayout: FC = () => {
   // state
-  const { data } = useSlices("productController");
-  const favItems = data.favoriteProducts;
+  const { data } = useSlices("dashboardController");
+  const favItems = data.favoriteHistory;
 
   return (
     <div className="flex-1">

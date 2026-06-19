@@ -9,8 +9,8 @@ import OrderCard from "../components/ui/orderCard";
 // main
 const OrderHistory: FC = () => {
   // state
-  const { data } = useSlices("productController");
-  const orders = data.orderedProducts;
+  const { data } = useSlices("dashboardController");
+  const orders = data.orderHistory;
 
   return (
     <div className="flex-1">
