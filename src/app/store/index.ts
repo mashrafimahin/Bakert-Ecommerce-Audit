@@ -4,12 +4,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import globalReducer from "../features/globalController";
 import productReducer from "../features/productController";
 import DashboardReducer from "../features/dashboardController";
+import AuthenticationReducer from "../features/authenticationController";
 
 export const store = configureStore({
   reducer: {
     globalController: globalReducer,
     productController: productReducer,
     dashboardController: DashboardReducer,
+    authController: AuthenticationReducer,
   },
 });
 
