@@ -6,7 +6,7 @@ export const dashboardHandler = async () => {
     // ordered list
     const ORDERED_LIST = [
       {
-        id: "#ORD-12345",
+        id: "1",
         orderedDate: "June 12, 2026",
         status: "Delivered",
         category: "Cakes",
@@ -19,7 +19,7 @@ export const dashboardHandler = async () => {
         reviews: 124,
       },
       {
-        id: "#ORD-12345",
+        id: "2",
         orderedDate: "June 12, 2026",
         status: "Delivered",
         category: "Cakes",
