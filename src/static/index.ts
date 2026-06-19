@@ -174,3 +174,59 @@ export const privacyData = {
     },
   ],
 };
+
+// terms & conditions
+export const termsData = {
+  headline: "Terms of Service",
+  icon: ShieldCheck,
+  updatedDate: "June 18, 2026",
+  fieldLists: [
+    {
+      id: 1,
+      title: "Agreement to Terms",
+      description:
+        'These Terms of Service constitute a legally binding agreement made between you, whether personally or on behalf of an entity ("you") and Bakert ("we," "us," or "our"), concerning your access to and use of the website as well as any other media form, mobile website, or mobile application related, linked, or otherwise connected thereto (collectively, the "Site"). By accessing the Site, you agree that you have read, understood, and agreed to be bound by all of these Terms of Service.',
+    },
+    {
+      id: 2,
+      title: "User Accounts",
+      description:
+        "If you create an account on the Site, you are responsible for maintaining the security of your account and password, and you are fully responsible for all activities that occur under the account. You agree to:",
+      lists: [
+        {
+          para: "Provide true, accurate, current, and complete information about yourself.",
+        },
+        {
+          para: "Maintain and promptly update your account data to keep it true, accurate, current, and complete.",
+        },
+        {
+          para: "Notify us immediately of any unauthorized use of your password or account.",
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: "Products, Orders, and Pricing",
+      description:
+        "We make every effort to display as accurately as possible the colors, features, specifications, and details of the products available on the Site. However, we do not guarantee that the colors, features, specifications, and details of the products will be accurate, complete, reliable, current, or free of other errors (e.g., your electronic display may not accurately reflect the actual colors and details of the products). All products are subject to availability, and we cannot guarantee that items will be in stock. We reserve the right to discontinue any products at any time for any reason. Prices for all products are subject to change.",
+    },
+    {
+      id: 4,
+      title: "Cancellations and Refunds",
+      description:
+        "Because our products are perishable and baked fresh to order, cancellations must be made at least 48 hours prior to the scheduled delivery or pickup time for a full refund. Cancellations made within 48 hours of the delivery/pickup time will not be eligible for a refund. Digital recipes are non-refundable once the purchase is complete and the download link has been accessed.",
+    },
+    {
+      id: 5,
+      title: "Intellectual Property Rights",
+      description:
+        'Unless otherwise indicated, the Site is our proprietary property and all source code, databases, functionality, software, website designs, audio, video, text, photographs, and graphics on the Site (collectively, the "Content") and the trademarks, service marks, and logos contained therein are owned or controlled by us or licensed to us, and are protected by copyright and trademark laws.',
+    },
+    {
+      id: 6,
+      title: "Changes to Terms",
+      description:
+        'We reserve the right, in our sole discretion, to make changes or modifications to these Terms of Service at any time and for any reason. We will alert you about any changes by updating the "Last Updated" date of these Terms of Service, and you waive any right to receive specific notice of each such change.',
+    },
+  ],
+};
