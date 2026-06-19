@@ -1,92 +1,56 @@
 // dependencies
-import {
-  createAsyncThunk,
-  createSlice,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
-import { productHandler } from "../../handlers/productHandler";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { dashboardHandler } from "../../handlers/dashboardHandler";
 // types
 import type { CartItem } from "./globalController";
-export interface Review {
-  id: number;
-  author: string;
-  rating: number;
-  date: string;
-  text: string;
-}
-export interface ProductWithReviews extends CartItem {
-  reviewsList: Review[];
-}
-
 // initial state
+type ViewState = "order" | "favorite" | "settings";
+
 interface ProductState {
   isLoading: boolean;
-  error: boolean;
-  message: string;
-  allProducts: ProductWithReviews[];
-  searchQuery: string;
-  activeCategory: string;
+  viewState: ViewState;
+  orderHistory: CartItem[];
+  favoriteHistory: CartItem[];
 }
 
 const initialState: ProductState = {
   isLoading: false,
-  error: false,
-  message: "",
-  allProducts: [],
-  searchQuery: "",
-  activeCategory: "All",
+  viewState: "order",
+  orderHistory: [],
+  favoriteHistory: [],
 };
 
 // data fetch thunk — fetches products from the handler
-export const productThunk = createAsyncThunk("product/fetch", async () => {
-  const result = await productHandler();
-  return result ?? [];
+export const dashboardThunk = createAsyncThunk("data/dashboard", async () => {
+  const result = await dashboardHandler();
+  return result ?? { orders: [], favorites: [] };
 });
 
 // slice
-const ProductSlice = createSlice({
-  name: "product",
+const DashboardSlice = createSlice({
+  name: "dashboard",
   initialState,
   reducers: {
-    setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload;
-    },
-    setActiveCategory: (state, action: PayloadAction<string>) => {
-      state.activeCategory = action.payload;
-    },
-    addReview: (
-      state,
-      action: PayloadAction<{ productId: string; review: Review }>,
-    ) => {
-      const product = state.allProducts.find(
-        (p) => p.id === action.payload.productId,
-      );
-      if (product) {
-        product.reviewsList.unshift(action.payload.review);
-      }
+    handleView: (state, action) => {
+      state.viewState = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(productThunk.pending, (state) => {
+      .addCase(dashboardThunk.pending, (state) => {
         state.isLoading = true;
-        state.error = false;
-        state.message = "";
       })
-      .addCase(productThunk.fulfilled, (state, action) => {
+      .addCase(dashboardThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.allProducts = action.payload;
-        // state.message = "";
+        state.orderHistory = action.payload.orders;
+        state.favoriteHistory = action.payload.favorites;
       })
-      .addCase(productThunk.rejected, (state, action) => {
+      .addCase(dashboardThunk.rejected, (state) => {
         state.isLoading = false;
-        state.error = true;
-        state.message = action.error.message ?? "Something went wrong";
       });
   },
 });
 
 // exports
-export default ProductSlice.reducer;
-export const { setSearchQuery, setActiveCategory, addReview } =
-  ProductSlice.actions;
+export default DashboardSlice.reducer;
+export const { handleView } = DashboardSlice.actions;
