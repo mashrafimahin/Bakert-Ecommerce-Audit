@@ -25,6 +25,9 @@ export interface CartItem {
 // initial state
 interface GlobalState {
   showPopup: boolean;
+  showNotification: boolean;
+  notificationType: string;
+  notificationMessage: string;
   cartCount: number;
   cartDetails: CartItem[];
   totalPrice: number;
@@ -35,6 +38,9 @@ const cartFromStorage = loadCartFromStorage();
 
 const initialState: GlobalState = {
   showPopup: false,
+  showNotification: false,
+  notificationMessage: "test passed",
+  notificationType: "success",
   cartCount: cartFromStorage.length,
   cartDetails: cartFromStorage,
   totalPrice: cartFromStorage.reduce(
@@ -50,6 +56,16 @@ const GlobalSlice = createSlice({
   reducers: {
     handlePopup: (state) => {
       state.showPopup = !state.showPopup;
+    },
+    handleNotification: (state, action) => {
+      state.showNotification = true;
+      state.notificationType = action.payload.type;
+      state.notificationMessage = action.payload.message;
+    },
+    hideNotification: (state) => {
+      state.showNotification = false;
+      state.notificationType = "success";
+      state.notificationMessage = "Empty String.";
     },
     handleUpdate: (state, action) => {
       const item = state.cartDetails.find(
@@ -106,5 +122,11 @@ const GlobalSlice = createSlice({
 
 // exports
 export default GlobalSlice.reducer;
-export const { handlePopup, handleUpdate, handleAddCart, handleRemoveItem } =
-  GlobalSlice.actions;
+export const {
+  handlePopup,
+  handleNotification,
+  hideNotification,
+  handleUpdate,
+  handleAddCart,
+  handleRemoveItem,
+} = GlobalSlice.actions;
