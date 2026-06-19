@@ -99,10 +99,10 @@ const Footer: FC = () => {
           <p>&copy; 2026 Bakert. All rights reserved.</p>
           <div className="flex gap-6 mt-4 md:mt-0 font-medium">
             <span className="hover:text-white cursor-pointer transition-colors">
-              Privacy Policy
+              <Link to="/privacy&policy">Privacy Policy</Link>
             </span>
             <span className="hover:text-white cursor-pointer transition-colors">
-              Terms of Service
+              <Link to="/terms&conditions">Terms of Service</Link>
             </span>
           </div>
         </div>
