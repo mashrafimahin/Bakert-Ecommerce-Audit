@@ -24,8 +24,6 @@ interface ProductState {
   error: boolean;
   message: string;
   allProducts: ProductWithReviews[];
-  favoriteProducts: CartItem[];
-  orderedProducts: CartItem[];
   searchQuery: string;
   activeCategory: string;
 }
@@ -35,8 +33,6 @@ const initialState: ProductState = {
   error: false,
   message: "",
   allProducts: [],
-  favoriteProducts: [],
-  orderedProducts: [],
   searchQuery: "",
   activeCategory: "All",
 };
@@ -80,8 +76,6 @@ const ProductSlice = createSlice({
       .addCase(productThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.allProducts = action.payload.allItems;
-        state.orderedProducts = action.payload.orderHistory;
-        state.favoriteProducts = action.payload.favProducts;
         // state.message = "";
       })
       .addCase(productThunk.rejected, (state, action) => {
