@@ -44,12 +44,12 @@ const ToastNotification: FC = () => {
     <>
       <div
         className={cn(
-          "absolute left-1/2 -translate-x-1/2 -translate-y-1/2 mt-4 bg-white shadow-2xl border-2 rounded-2xl py-3 px-6 z-70 transition-all",
+          "absolute max-[570px]:w-80 max-[390px]:w-70 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-4 bg-white shadow-2xl border-2 rounded-2xl py-3 px-6 z-70 transition-all",
           show ? "top-8" : "-top-20",
         )}
       >
         <div className="flex items-center gap-2">
-          <Icon size={20} className={cn(IconPattern[mark].color)} />
+          <Icon size={20} className={cn(IconPattern[mark].color, "shrink-0")} />
           <Typography className="text-md text-gray-800 font-semibold">
             {data.notificationMessage}
           </Typography>
