@@ -58,7 +58,7 @@ const Navbar: FC = () => {
           {/* Icons */}
           <div className="hidden md:flex items-center gap-4">
             <Link
-              to="/login"
+              to="/dashboard"
               className="p-2 text-[#2C3333]/80 hover:text-[#395B64] transition-colors"
             >
               <User className="h-6 w-6" />
@@ -115,7 +115,7 @@ const Navbar: FC = () => {
                 </Link>
               ))}
               <Link
-                to="/login"
+                to="/dashboard"
                 onClick={() => setIsMenuOpen(false)}
                 className="text-[#395B64] font-bold px-2 py-2 flex items-center gap-2"
               >
