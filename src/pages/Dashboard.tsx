@@ -4,7 +4,7 @@ import { useEffect, type FC } from "react";
 interface ViewTypes {
   order: FC;
   favorite: FC;
-  settings: null;
+  settings: FC;
 }
 // controller
 import useSlices from "../hooks/useSlices";
@@ -17,11 +17,12 @@ import DashboardSide from "../components/ui/dashboardSide";
 // layouts
 import OrderHistory from "../layouts/OrderHistory";
 import FavoriteLayout from "../layouts/FavoriteLayout";
+import ProfileLayout from "../layouts/ProfileLayout";
 // view components
 const VIEW_COMPONENTS: ViewTypes = {
   order: OrderHistory,
   favorite: FavoriteLayout,
-  settings: null,
+  settings: ProfileLayout,
 };
 
 // main
