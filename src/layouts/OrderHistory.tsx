@@ -19,11 +19,15 @@ const OrderHistory: FC = () => {
       </Typography>
 
       {/* Order Item */}
-      <div className="space-y-6">
-        {orders.map((item) => (
-          <OrderCard key={item.id} info={item} />
-        ))}
-      </div>
+      {orders.length > 0 ? (
+        <div className="space-y-6">
+          {orders.map((item) => (
+            <OrderCard key={item.id} info={item} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-md ml-2 font-semibold">No history found.</p>
+      )}
     </div>
   );
 };
