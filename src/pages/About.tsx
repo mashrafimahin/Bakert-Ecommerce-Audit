@@ -1,5 +1,5 @@
 // dependencies
-import type { FC } from "react";
+import { type FC, useEffect } from "react";
 // components
 import Navbar from "../components/ui/navbar";
 import Footer from "../components/ui/footer";
@@ -8,6 +8,11 @@ import AboutLayout from "../layouts/AboutLayout";
 
 // main
 const About: FC = () => {
+  // auto scroll
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Navbar />
