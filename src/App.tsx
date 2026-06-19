@@ -13,6 +13,7 @@ const About = lazy(() => import("./pages/About"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Privacy = lazy(() => import("./pages/Privacy"));
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -47,6 +48,7 @@ const App: FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy&policy" element={<Privacy />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/dashboard" element={<Dashboard />} />
