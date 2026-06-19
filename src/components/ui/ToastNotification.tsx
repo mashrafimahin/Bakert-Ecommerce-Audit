@@ -2,11 +2,13 @@
 import type { FC } from "react";
 // utilities
 import { cn } from "../../utils/ClassMerger";
+// controller
+import useSlices from "../../hooks/useSlices";
+import { hideNotification } from "../../app/features/globalController";
 // icons
-import { ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
+import { ShieldAlert, ShieldCheck, ShieldX, X } from "lucide-react";
 // components
 import Typography from "../typography";
-import useSlices from "../../hooks/useSlices";
 // pattern - icon
 const IconPattern = {
   success: {
@@ -26,12 +28,17 @@ const IconPattern = {
 // main
 const ToastNotification: FC = () => {
   // state
-  const { data } = useSlices("globalController");
+  const { data, dispatch } = useSlices("globalController");
   const show = data.showNotification;
   const mark = data.notificationType as keyof typeof IconPattern;
 
   // select icon
   const Icon = IconPattern[mark].icon;
+
+  // handle Click
+  const handleClick = (): void => {
+    dispatch(hideNotification());
+  };
 
   return (
     <>
@@ -46,6 +53,7 @@ const ToastNotification: FC = () => {
           <Typography className="text-md text-gray-800 font-semibold">
             {data.notificationMessage}
           </Typography>
+          <X size={20} onClick={handleClick} className="ml-1 cursor-pointer" />
         </div>
       </div>
     </>
