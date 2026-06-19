@@ -34,5 +34,6 @@ export const dashboardHandler = async () => {
     return { orders: [...ORDERED_LIST], favorites: [...ORDERED_LIST] };
   } catch (err) {
     console.log(err);
+    return { orders: [], favorites: [] };
   }
 };
