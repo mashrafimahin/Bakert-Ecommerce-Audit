@@ -7,6 +7,7 @@ import { cn } from "../utils/ClassMerger";
 import useSlices from "../hooks/useSlices";
 import type { CartItem } from "../app/features/globalController";
 import {
+  handleNotification,
   handlePopup,
   handleRemoveItem,
   handleUpdate,
@@ -65,6 +66,12 @@ const Cart: FC = () => {
   const handleCheckout = (): void => {
     // checking
     if (data.cartDetails.length === 0) {
+      dispatch(
+        handleNotification({
+          type: "warning",
+          message: "You must add some products.",
+        }),
+      );
       return;
     }
     setIsLoading(true);
