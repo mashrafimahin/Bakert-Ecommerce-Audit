@@ -1,18 +1,47 @@
 // dependencies
 import { useEffect, type FC } from "react";
+// interface/@types
+interface ViewTypes {
+  order: FC;
+  favorite: FC;
+  settings: null;
+}
+// controller
+import useSlices from "../hooks/useSlices";
+import { dashboardThunk } from "../app/features/dashboardController";
 // components
+import Loader from "../components/ui/Loader";
 import Navbar from "../components/ui/navbar";
 import Footer from "../components/ui/footer";
-import Typography from "../components/typography";
-import OrderCard from "../components/ui/orderCard";
 import DashboardSide from "../components/ui/dashboardSide";
+// layouts
+import OrderHistory from "../layouts/OrderHistory";
+import FavoriteLayout from "../layouts/FavoriteLayout";
+// view components
+const VIEW_COMPONENTS: ViewTypes = {
+  order: OrderHistory,
+  favorite: FavoriteLayout,
+  settings: null,
+};
 
 // main
 const Dashboard: FC = () => {
-  // auto scroll
+  // state
+  const { data, dispatch } = useSlices("dashboardController");
+
+  // view components
+  const CurrentView = VIEW_COMPONENTS[data.viewState];
+
+  // auto scroll + fetch data
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    dispatch(dashboardThunk());
+  }, [dispatch]);
+
+  // return loader
+  if (data.isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -26,16 +55,7 @@ const Dashboard: FC = () => {
           <DashboardSide />
 
           {/* Main Content */}
-          <div className="flex-1">
-            <Typography variant="subHead" className="mb-4 ml-2">
-              Recent Orders
-            </Typography>
-
-            {/* Order Item */}
-            <div className="space-y-6">
-              <OrderCard />
-            </div>
-          </div>
+          {CurrentView && <CurrentView />}
         </div>
       </div>
 
