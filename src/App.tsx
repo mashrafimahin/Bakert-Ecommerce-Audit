@@ -1,13 +1,16 @@
 // dependencies
 import { lazy, Suspense, useEffect, type FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import Cart from "./layouts/CartPopup";
+// utilities
+import PrivateRoute from "./utils/PrivateRoute";
 // controller
 import useSlices from "./hooks/useSlices";
 import { productThunk } from "./app/features/productController";
 // components
 import Loader from "./components/ui/Loader";
 import ToastNotification from "./components/ui/ToastNotification";
+// layouts
+import Cart from "./layouts/CartPopup";
 // pages
 const Home = lazy(() => import("./pages/Home"));
 const Shop = lazy(() => import("./pages/Shop"));
@@ -56,8 +59,10 @@ const App: FC = () => {
           <Route path="/privacy&policy" element={<Privacy />} />
           <Route path="/terms&conditions" element={<Terms />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
       </Suspense>
     </>
