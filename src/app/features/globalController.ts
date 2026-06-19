@@ -18,6 +18,8 @@ export interface CartItem {
   image: string;
   isNew?: boolean;
   quantity?: number;
+  orderedDate?: string;
+  status?: string;
 }
 
 // initial state
