@@ -1,9 +1,8 @@
 // dependencies
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { dashboardHandler } from "../../handlers/dashboardHandler";
-// types
+// interface/@types
 import type { CartItem } from "./globalController";
-// initial state
 type ViewState = "order" | "favorite" | "settings";
 
 interface ProductState {
