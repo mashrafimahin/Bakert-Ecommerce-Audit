@@ -4,8 +4,10 @@ import { Route, Routes } from "react-router-dom";
 import Cart from "./layouts/CartPopup";
 // controller
 import useSlices from "./hooks/useSlices";
-import Loader from "./components/ui/Loader";
 import { productThunk } from "./app/features/productController";
+// components
+import Loader from "./components/ui/Loader";
+import ToastNotification from "./components/ui/ToastNotification";
 // pages
 const Home = lazy(() => import("./pages/Home"));
 const Shop = lazy(() => import("./pages/Shop"));
@@ -40,6 +42,8 @@ const App: FC = () => {
     <>
       {/* cart popup */}
       {data.showPopup && <Cart />}
+      {/* Notification */}
+      <ToastNotification />
       {/* routes */}
       <Suspense fallback={<Loader />}>
         <Routes>
