@@ -1,5 +1,8 @@
 // dependencies
 import type { FC } from "react";
+// controller
+import useSlices from "../../hooks/useSlices";
+import { handleView } from "../../app/features/dashboardController";
 // utilities
 import { cn } from "../../utils/ClassMerger";
 // icon
@@ -10,23 +13,31 @@ import Typography from "../typography";
 const viewButtons = [
   {
     title: "Order History",
-    page: "",
+    page: "order",
     icon: <Package className="w-5 h-5" />,
   },
   {
     title: "Favorites",
-    page: "",
+    page: "favorite",
     icon: <Heart className="w-5 h-5" />,
   },
   {
-    title: "Order History",
-    page: "Settings",
+    title: "Profile Settings",
+    page: "settings",
     icon: <Settings className="w-5 h-5" />,
   },
 ];
 
 // main
 const DashboardSide: FC = () => {
+  // state
+  const { data, dispatch } = useSlices("dashboardController");
+
+  // handle Click
+  const handleClick = (path: string): void => {
+    dispatch(handleView(path));
+  };
+
   return (
     <aside className="w-full md:w-72 shrink-0">
       <div className="bg-white rounded-xl p-6 border border-[#A5C9CA]/30 shadow-sm sticky top-28">
@@ -47,14 +58,15 @@ const DashboardSide: FC = () => {
             </Typography>
           </div>
         </div>
-
         {/* nav buttons */}
         <nav className="space-y-2">
           {viewButtons.map((item, i) => (
             <span
               key={i}
+              onClick={() => handleClick(item.page)}
               className={cn(
-                "flex items-center gap-3 px-5 py-4 bg-[#395B64] text-white rounded-xl font-bold shadow-md shadow-[#395B64]/20 cursor-pointer",
+                "flex items-center gap-3 px-5 py-4 bg-[#E7F6F2] text-[#395B64] rounded-xl font-bold shadow-md shadow-[#]/20 cursor-pointer",
+                data.viewState === item.page ? "bg-[#395B64] text-white" : "",
               )}
             >
               {item.icon} {item.title}
