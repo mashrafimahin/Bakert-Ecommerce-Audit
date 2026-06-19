@@ -98,3 +98,79 @@ export const AboutData = {
     ],
   },
 };
+
+// privacy policy
+export const privacyData = {
+  headline: "Privacy Policy",
+  icon: ShieldCheck,
+  updatedDate: "June 18, 2026",
+  fieldLists: [
+    {
+      id: 1,
+      title: "Introduction",
+      description:
+        "At Bakert, your privacy is just as important to us as the quality of our cakes. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, make a purchase, or interact with us. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.",
+    },
+    {
+      id: 2,
+      title: "Information We Collect",
+      description:
+        "We may collect information about you in a variety of ways. The information we may collect on the Site includes:",
+      lists: [
+        {
+          bold: "Personal Data",
+          para: "Personally identifiable information, such as your name, shipping address, email address, and telephone number, that you voluntarily give to us when you register with the Site or when you choose to participate in various activities related to the Site (such as online orders and newsletters).",
+        },
+        {
+          bold: "Financial Data",
+          para: "Financial information, such as data related to your payment method (e.g., valid credit card number, card brand, expiration date) that we may collect when you purchase, order, return, exchange, or request information about our services from the Site.",
+        },
+        {
+          bold: "Derivative Data",
+          para: "Information our servers automatically collect when you access the Site, such as your IP address, your browser type, your operating system, your access times, and the pages you have viewed directly before and after accessing the Site.",
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: "Use of Your Information",
+      description:
+        "Having accurate information about you permits us to provide you with a smooth, efficient, and customized experience. Specifically, we may use information collected about you via the Site to:",
+      lists: [
+        {
+          para: "Create and manage your account.",
+        },
+        {
+          para: "Process your transactions, arrange for deliveries, and send related information, including purchase confirmations and invoices.",
+        },
+        {
+          para: "Respond to customer service requests and provide support.",
+        },
+        {
+          para: "Send you marketing and promotional communications (if you have opted in).",
+        },
+        {
+          para: "Improve our website and product offerings based on user feedback.",
+        },
+      ],
+    },
+    {
+      id: 4,
+      title: "Disclosure of Your Information",
+      description:
+        "We do not sell, trade, or rent your personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates, and advertisers for the purposes outlined above. We may use third-party service providers (like payment processors and delivery services) to help us operate our business, provided that those parties agree to keep this information confidential.",
+    },
+    {
+      id: 5,
+      title: "Data Security",
+      description:
+        "We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse.",
+    },
+    {
+      id: 6,
+      title: "Cookies",
+      description:
+        "We may use cookies, web beacons, tracking pixels, and other tracking technologies on the Site to help customize the Site and improve your experience. When you access the Site, your personal information is not collected through the use of tracking technology. Most browsers are set to accept cookies by default. You can remove or reject cookies, but be aware that such action could affect the availability and functionality of the Site.",
+    },
+  ],
+};
