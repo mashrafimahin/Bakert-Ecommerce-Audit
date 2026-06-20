@@ -6,6 +6,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 // controller
 import useSlices from "./hooks/useSlices";
 import { productThunk } from "./app/features/productController";
+import { authCheckThunk } from "./app/features/authenticationController";
 // components
 import Loader from "./components/ui/Loader";
 import ToastNotification from "./components/ui/ToastNotification";
@@ -28,11 +29,13 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const App: FC = () => {
   // state
   const { data } = useSlices("globalController");
+  const { dispatch: authDispatch } = useSlices("authController");
   const { data: productState, dispatch } = useSlices("productController");
 
   // fetch products on mount
   useEffect(() => {
     dispatch(productThunk());
+    authDispatch(authCheckThunk());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
