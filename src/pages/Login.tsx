@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import useSlices from "../hooks/useSlices";
 import { loginThunk } from "../app/features/authenticationController";
 // interface/@types
-export interface FormInfo {
+export interface LoginInfo {
   email: string;
   password: string;
   remember?: boolean;
@@ -25,7 +25,7 @@ const Login: FC = () => {
   const { data, dispatch } = useSlices("authController");
 
   // form info
-  const [formData, setFormData] = useState<FormInfo>({
+  const [formData, setFormData] = useState<LoginInfo>({
     email: "",
     password: "",
     remember: false,

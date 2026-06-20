@@ -1,8 +1,11 @@
 // dependencies
 import { useState, useEffect, type FC } from "react";
 import { Link } from "react-router-dom";
+// controller
+import useSlices from "../hooks/useSlices";
+import { signupThunk } from "../app/features/authenticationController";
 // interface/@types
-interface FormInfo {
+export interface SignupInfo {
   fullName: string;
   email: string;
   password: string;
@@ -18,8 +21,11 @@ import Button from "../components/ui/button";
 
 // main
 const SignUp: FC = () => {
+  // state
+  const { dispatch } = useSlices("authController");
+
   // form info
-  const [formData, setFormData] = useState<FormInfo>({
+  const [formData, setFormData] = useState<SignupInfo>({
     fullName: "",
     email: "",
     password: "",
@@ -36,7 +42,7 @@ const SignUp: FC = () => {
   // handle submit
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
+    dispatch(signupThunk(formData));
   };
 
   // auto scroll
