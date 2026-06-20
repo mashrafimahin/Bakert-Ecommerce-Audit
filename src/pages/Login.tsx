@@ -22,7 +22,7 @@ import Button from "../components/ui/button";
 // main
 const Login: FC = () => {
   // state
-  const { dispatch } = useSlices("authController");
+  const { data, dispatch } = useSlices("authController");
 
   // form info
   const [formData, setFormData] = useState<FormInfo>({
@@ -133,8 +133,17 @@ const Login: FC = () => {
               </div>
             </div>
 
+            {/* alert box */}
+            {data.alertOn && (
+              <p className="text-md font-semibold text-red-600 text-center">
+                {data.alertMessage}
+              </p>
+            )}
+
             {/* action button */}
-            <Button variant="primary">Sign In</Button>
+            <Button variant="primary" type="submit">
+              Sign In
+            </Button>
           </form>
 
           {/* options */}
