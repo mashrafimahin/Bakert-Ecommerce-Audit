@@ -22,7 +22,7 @@ import Button from "../components/ui/button";
 // main
 const SignUp: FC = () => {
   // state
-  const { dispatch } = useSlices("authController");
+  const { data, dispatch } = useSlices("authController");
 
   // form info
   const [formData, setFormData] = useState<SignupInfo>({
@@ -116,7 +116,21 @@ const SignUp: FC = () => {
             </div>
 
             {/* action button */}
-            <Button variant="primary">Sign Up</Button>
+            <Button
+              variant="primary"
+              type="submit"
+              className={data.isLoading ? "cursor-no-drop" : ""}
+              disabled={data.isLoading}
+            >
+              {data.isLoading ? (
+                <div className="flex items-center">
+                  <div className="h-3 w-3 animate-spin rounded-full border-4 border-white border-t-transparent" />
+                  &nbsp; Creating Account
+                </div>
+              ) : (
+                "Sign Up"
+              )}
+            </Button>
           </form>
 
           {/* options */}
