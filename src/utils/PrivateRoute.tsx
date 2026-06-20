@@ -3,14 +3,14 @@ import { Navigate, Outlet } from "react-router-dom";
 import useSlices from "../hooks/useSlices";
 import { handleNotification } from "../app/features/globalController";
 // controller
-const auth = false;
 
 // main
 const PrivateRoute = () => {
   // state
   const { dispatch } = useSlices("globalController");
+  const { data: auth } = useSlices("authController");
 
-  if (!auth) {
+  if (!auth.isLoggedIn) {
     dispatch(
       handleNotification({
         type: "warning",
@@ -19,7 +19,7 @@ const PrivateRoute = () => {
     );
   }
 
-  return auth ? <Outlet /> : <Navigate to="login" replace />;
+  return auth.isLoggedIn ? <Outlet /> : <Navigate to="login" replace />;
 };
 
 // exports
