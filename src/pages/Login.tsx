@@ -141,8 +141,20 @@ const Login: FC = () => {
             )}
 
             {/* action button */}
-            <Button variant="primary" type="submit">
-              Sign In
+            <Button
+              variant="primary"
+              type="submit"
+              className={data.isLoading ? "cursor-no-drop" : ""}
+              disabled={data.isLoading}
+            >
+              {data.isLoading ? (
+                <div className="flex items-center">
+                  <div className="h-3 w-3 animate-spin rounded-full border-4 border-white border-t-transparent" />
+                  &nbsp; Joining ...
+                </div>
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
 
