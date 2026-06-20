@@ -115,6 +115,13 @@ const SignUp: FC = () => {
               />
             </div>
 
+            {/* alert box */}
+            {data.alertOn && (
+              <p className="text-md font-semibold text-red-600 text-center">
+                {data.alertMessage}
+              </p>
+            )}
+
             {/* action button */}
             <Button
               variant="primary"
