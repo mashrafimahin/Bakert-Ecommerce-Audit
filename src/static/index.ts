@@ -1,5 +1,7 @@
 // icons
 import { Award, Heart, ShieldCheck, Users } from "lucide-react";
+// images
+import ProfileImage from "../assets/images/CEO.webp";
 
 // hero
 export const HeroData = {
@@ -53,8 +55,7 @@ export const AboutData = {
     "Since our ovens first fired up, Bakert has been dedicated to crafting moments of joy through extraordinary baked goods. Our reputation is built on uncompromising quality and a genuine love for our community.",
   overlayImage:
     "https://images.unsplash.com/photo-1689037676470-b72230d5236e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtlcnklMjBpbnRlcmlvcnxlbnwxfHx8fDE3ODE3NzczMzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-  authorImage:
-    "https://images.unsplash.com/photo-1542909192-2f2241a99c9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiYWtlciUyMHBvcnRyYWl0fGVufDF8fHx8MTc4MTc3NzMzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+  authorImage: ProfileImage,
   author: "Mashrafi Mahin",
   beginOne:
     "It all started with a simple family recipe and a tiny storefront. Over the years, Bakert has grown from a well-kept neighborhood secret into a beloved city institution. We’ve always believed that the best cakes require patience, premium ingredients, and a touch of artistry.",
