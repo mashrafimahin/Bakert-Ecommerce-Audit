@@ -49,6 +49,10 @@ class Authentication {
         // save data -> local
         localStorage.setItem("user_access", data.userId);
         localStorage.setItem("refresh", data.refreshToken);
+        // auto reload -> fetch user info
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 500);
 
         return data;
       } else {
@@ -79,6 +83,10 @@ class Authentication {
         // save data -> local
         localStorage.setItem("user_access", data.userId);
         localStorage.setItem("refresh", data.refreshToken);
+        // auto reload -> fetch user info
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 500);
 
         return data;
       } else {
