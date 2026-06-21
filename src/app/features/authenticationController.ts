@@ -89,7 +89,7 @@ const AuthSlice = createSlice({
       // auth check
       .addCase(authCheckThunk.pending, () => {})
       .addCase(authCheckThunk.fulfilled, (state, action) => {
-        if (!action.payload) {
+        if (!action.payload.success) {
           state.isLoggedIn = action.payload.success;
         } else {
           state.isLoggedIn = action.payload.success;
@@ -108,7 +108,6 @@ const AuthSlice = createSlice({
         if (action.payload.success) {
           state.isLoading = false;
           state.isLoggedIn = true;
-          state.profileData = action.payload.profile;
         } else {
           state.alertOn = true;
           state.alertMessage = action.payload.message;
@@ -126,7 +125,6 @@ const AuthSlice = createSlice({
         if (action.payload.success) {
           state.isLoading = false;
           state.isLoggedIn = true;
-          state.profileData = action.payload.profile;
         } else {
           state.alertOn = true;
           state.alertMessage = action.payload.message;
