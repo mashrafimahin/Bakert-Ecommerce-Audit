@@ -19,7 +19,7 @@ class Authentication {
         });
         const data = await response.json();
         if (data.success) {
-          return data.success;
+          return data;
         } else {
           throw Error("Authentication Failed! Login again.");
         }

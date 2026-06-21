@@ -90,9 +90,10 @@ const AuthSlice = createSlice({
       .addCase(authCheckThunk.pending, () => {})
       .addCase(authCheckThunk.fulfilled, (state, action) => {
         if (!action.payload) {
-          state.isLoggedIn = action.payload;
+          state.isLoggedIn = action.payload.success;
         } else {
-          state.isLoggedIn = action.payload;
+          state.isLoggedIn = action.payload.success;
+          state.profileData = action.payload.profile;
         }
       })
       .addCase(authCheckThunk.rejected, () => {})
