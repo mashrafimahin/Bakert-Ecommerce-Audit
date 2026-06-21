@@ -1,5 +1,6 @@
 // dependencies
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
 // controller
 import useSlices from "../../hooks/useSlices";
 import { handleView } from "../../app/features/dashboardController";
@@ -9,6 +10,7 @@ import { cn } from "../../utils/ClassMerger";
 import { Package, Heart, Settings, LogOut } from "lucide-react";
 // components
 import Typography from "../typography";
+import { logOutThunk } from "../../app/features/authenticationController";
 // data
 const viewButtons = [
   {
@@ -32,10 +34,18 @@ const viewButtons = [
 const DashboardSide: FC = () => {
   // state
   const { data, dispatch } = useSlices("dashboardController");
+  const { data: user } = useSlices("authController");
+  const navigate = useNavigate();
 
   // handle Click
   const handleClick = (path: string): void => {
     dispatch(handleView(path));
+  };
+
+  // handle logout
+  const handleLogOut = () => {
+    dispatch(logOutThunk());
+    navigate("/", { replace: true });
   };
 
   return (
@@ -44,17 +54,17 @@ const DashboardSide: FC = () => {
         {/* heading */}
         <div className="flex items-center gap-4 mb-8 pb-8 border-b border-[#E7F6F2]">
           <div className="w-14 h-14 bg-[#E7F6F2] rounded-full flex items-center justify-center text-[#395B64] font-bold text-2xl">
-            J
+            {user.profileData.firstName[0]}
           </div>
           <div>
             <Typography
               variant="subHead"
               className="font-bold text-[#2C3333] text-lg mb-0"
             >
-              Jane Doe
+              {`${user.profileData.firstName} ${user.profileData.lastName}`}
             </Typography>
             <Typography className="text-sm font-medium text-[#A5C9CA]">
-              jane@example.com
+              {user.profileData.email}
             </Typography>
           </div>
         </div>
@@ -75,7 +85,10 @@ const DashboardSide: FC = () => {
 
           {/* separate */}
           <div className="pt-4 mt-4 border-t border-[#E7F6F2]">
-            <span className="flex items-center gap-3 px-5 py-4 text-[#A5C9CA] hover:text-red-500 hover:bg-red-50 rounded-xl font-bold transition-colors cursor-pointer">
+            <span
+              onClick={handleLogOut}
+              className="flex items-center gap-3 px-5 py-4 text-[#A5C9CA] hover:text-red-500 hover:bg-red-50 rounded-xl font-bold transition-colors cursor-pointer"
+            >
               <LogOut className="w-5 h-5" /> Sign Out
             </span>
           </div>
