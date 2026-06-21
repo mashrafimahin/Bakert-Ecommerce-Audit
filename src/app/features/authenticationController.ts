@@ -6,6 +6,7 @@ const auth = new Authentication();
 // interface/@types
 import type { LoginInfo } from "../../pages/Login";
 import type { SignupInfo } from "../../pages/SignUp";
+import type { UserInfo } from "../../layouts/ProfileLayout";
 interface ProfilePattern {
   firstName: string;
   lastName: string;
@@ -65,6 +66,15 @@ export const signupThunk = createAsyncThunk(
   },
 );
 
+// data fetch thunk — update
+export const updateThunk = createAsyncThunk(
+  "auth/update",
+  async (userInfo: UserInfo) => {
+    const result = await auth.updateProcess(userInfo);
+    return result;
+  },
+);
+
 // data fetch thunk — login
 export const loginThunk = createAsyncThunk(
   "auth/login",
@@ -114,6 +124,21 @@ const AuthSlice = createSlice({
         }
       })
       .addCase(signupThunk.rejected, () => {})
+
+      // update
+      .addCase(updateThunk.pending, (state) => {
+        state.isLoading = true;
+        state.alertOn = false;
+        state.alertMessage = "";
+      })
+      .addCase(updateThunk.fulfilled, (state, action) => {
+        if (action.payload.success) {
+          state.isLoading = false;
+        }
+        state.alertOn = true;
+        state.alertMessage = action.payload.message;
+      })
+      .addCase(updateThunk.rejected, () => {})
 
       // login
       .addCase(loginThunk.pending, (state) => {

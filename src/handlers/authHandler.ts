@@ -1,4 +1,5 @@
 // interface/@types
+import type { UserInfo } from "../layouts/ProfileLayout";
 import type { LoginInfo } from "../pages/Login";
 import type { SignupInfo } from "../pages/SignUp";
 
@@ -64,6 +65,40 @@ class Authentication {
     }
   };
 
+  // signup
+  updateProcess = async (userData: UserInfo) => {
+    try {
+      const userId = localStorage.getItem("user_access");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_KEY}/auth/update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId, ...userData }),
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success) {
+        // auto reload -> fetch user info
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
+
+        return data;
+      } else {
+        throw Error("Update Failed! Try again.");
+      }
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
   // login
   loginProcess = async (userInfo: LoginInfo) => {
     try {
@@ -98,7 +133,7 @@ class Authentication {
     }
   };
 
-  // login
+  // logout
   logoutProcess = async () => {
     const userId = localStorage.getItem("user_access");
     try {
