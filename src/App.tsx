@@ -1,5 +1,5 @@
 // dependencies
-import { lazy, Suspense, useEffect, type FC } from "react";
+import { lazy, Suspense, useEffect, useRef, type FC } from "react";
 import { Route, Routes } from "react-router-dom";
 // utilities
 import PrivateRoute from "./utils/PrivateRoute";
@@ -31,9 +31,12 @@ const App: FC = () => {
   const { data } = useSlices("globalController");
   const { dispatch: authDispatch } = useSlices("authController");
   const { data: productState, dispatch } = useSlices("productController");
+  const initialized = useRef(false);
 
   // fetch products on mount
   useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
     dispatch(productThunk());
     authDispatch(authCheckThunk());
     // eslint-disable-next-line react-hooks/exhaustive-deps

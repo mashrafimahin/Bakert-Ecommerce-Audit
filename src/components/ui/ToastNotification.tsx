@@ -1,5 +1,5 @@
 // dependencies
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 // utilities
 import { cn } from "../../utils/ClassMerger";
 // controller
@@ -34,6 +34,15 @@ const ToastNotification: FC = () => {
 
   // select icon
   const Icon = IconPattern[mark].icon;
+
+  // auto-dismiss after 4 seconds
+  useEffect(() => {
+    if (!show) return;
+    const timer = setTimeout(() => {
+      dispatch(hideNotification());
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [show, dispatch]);
 
   // handle Click
   const handleClick = (): void => {
