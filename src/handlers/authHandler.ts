@@ -83,10 +83,6 @@ class Authentication {
         // save data -> local
         localStorage.setItem("user_access", data.userId);
         localStorage.setItem("refresh", data.refreshToken);
-        // redirect
-        setTimeout(() => {
-          window.location.href = data.redirectTo;
-        }, 1200);
 
         return data;
       } else {

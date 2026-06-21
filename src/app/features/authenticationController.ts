@@ -118,6 +118,7 @@ const AuthSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         if (action.payload.success) {
           state.isLoading = false;
+          state.isLoggedIn = true;
           state.profileData = action.payload.profile;
         } else {
           state.alertOn = true;
