@@ -19,7 +19,6 @@ class Authentication {
         });
         const data = await response.json();
         if (data.success) {
-          console.log(data);
           return data.success;
         } else {
           throw Error("Authentication Failed! Login again.");
@@ -50,10 +49,6 @@ class Authentication {
         // save data -> local
         localStorage.setItem("user_access", data.userId);
         localStorage.setItem("refresh", data.refreshToken);
-        // redirect
-        setTimeout(() => {
-          window.location.href = data.redirectTo;
-        }, 1200);
 
         return data;
       } else {
@@ -61,6 +56,7 @@ class Authentication {
       }
     } catch (err) {
       console.log(err);
+      return err;
     }
   };
 
@@ -87,6 +83,34 @@ class Authentication {
         return data;
       } else {
         throw Error("Login Failed! Try again.");
+      }
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+
+  // login
+  logoutProcess = async () => {
+    const userId = localStorage.getItem("user_access");
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_KEY}/auth/logout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+          credentials: "include",
+        },
+      );
+      const data = await response.json();
+      if (data.success) {
+        // clear -> local
+        localStorage.clear();
+      } else {
+        throw Error("Logout Failed! Try again.");
       }
     } catch (err) {
       console.log(err);
