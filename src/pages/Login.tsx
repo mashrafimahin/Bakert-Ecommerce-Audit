@@ -1,6 +1,6 @@
 // dependencies
 import { useState, useEffect, type FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // controller
 import useSlices from "../hooks/useSlices";
 import { loginThunk } from "../app/features/authenticationController";
@@ -23,6 +23,7 @@ import Button from "../components/ui/button";
 const Login: FC = () => {
   // state
   const { data, dispatch } = useSlices("authController");
+  const navigate = useNavigate();
 
   // form info
   const [formData, setFormData] = useState<LoginInfo>({
@@ -44,6 +45,13 @@ const Login: FC = () => {
     e.preventDefault();
     dispatch(loginThunk(formData));
   };
+
+  // redirect to dashboard on successful login
+  useEffect(() => {
+    if (data.isLoggedIn) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [data.isLoggedIn, navigate]);
 
   // auto scroll
   useEffect(() => {
