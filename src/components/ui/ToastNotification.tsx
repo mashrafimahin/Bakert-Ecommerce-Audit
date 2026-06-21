@@ -53,8 +53,8 @@ const ToastNotification: FC = () => {
     <>
       <div
         className={cn(
-          "absolute max-[570px]:w-80 max-[390px]:w-70 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-4 bg-white shadow-2xl border-2 rounded-2xl py-3 px-6 z-70 transition-all",
-          show ? "top-8" : "-top-20",
+          "fixed max-[570px]:w-80 max-[390px]:w-70 left-1/2 -translate-x-1/2 bg-white shadow-2xl border-2 rounded-2xl py-3 px-6 z-9999 transition-all duration-300",
+          show ? "top-6 opacity-100" : "-top-20 opacity-0",
         )}
       >
         <div className="flex items-center gap-2">
