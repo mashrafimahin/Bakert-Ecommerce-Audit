@@ -74,6 +74,11 @@ export const loginThunk = createAsyncThunk(
   },
 );
 
+// data fetch thunk — logout
+export const logOutThunk = createAsyncThunk("auth/logout", async () => {
+  await auth.logoutProcess();
+});
+
 // slice
 const AuthSlice = createSlice({
   name: "authentication",
@@ -126,7 +131,17 @@ const AuthSlice = createSlice({
           state.alertMessage = action.payload.message;
         }
       })
-      .addCase(loginThunk.rejected, () => {});
+      .addCase(loginThunk.rejected, () => {})
+
+      // logout
+      .addCase(logOutThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logOutThunk.fulfilled, (state) => {
+        state.isLoading = false;
+        state.isLoggedIn = false;
+      })
+      .addCase(logOutThunk.rejected, () => {});
   },
 });
 
