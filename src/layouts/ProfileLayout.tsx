@@ -1,19 +1,35 @@
 // dependencies
 import { useState, type FC } from "react";
+// interface/@types
+export interface UserInfo {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  country?: string;
+  city?: string;
+  address?: string;
+  zip?: string | number;
+}
 // controller
 import useSlices from "../hooks/useSlices";
+import { updateThunk } from "../app/features/authenticationController";
 // icons
 import { Shield, User } from "lucide-react";
 // components
 import Typography from "../components/typography";
 import InputBox from "../components/boxes/input";
 import Button from "../components/ui/button";
+import { cn } from "../utils/ClassMerger";
 
 // main
 const ProfileLayout: FC = () => {
   // state
   const { data: user, dispatch } = useSlices("authController");
-  const [formInfo, setFormInfo] = useState(user.profileData || {});
+  const [formInfo, setFormInfo] = useState<UserInfo>(user.profileData || {});
+
+  // data object
+  const originalObject = user.profileData;
 
   // handle field change
   const handleField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,8 +42,21 @@ const ProfileLayout: FC = () => {
   // handle submit
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formInfo);
-    // dispatch(updateUserThunk(formInfo));
+    // checking
+    if (
+      originalObject.firstName === formInfo.firstName &&
+      originalObject.lastName === formInfo.lastName &&
+      originalObject.phone === formInfo.phone &&
+      originalObject.country === formInfo.country &&
+      originalObject.city === formInfo.city &&
+      originalObject.address === formInfo.address &&
+      originalObject.zip === formInfo.zip
+    ) {
+      alert("No changes found.");
+      return;
+    }
+    // action
+    dispatch(updateThunk(formInfo));
   };
 
   return (
@@ -129,9 +158,31 @@ const ProfileLayout: FC = () => {
               placeholder="Zip Code"
             />
 
+            {/* alert message */}
+            <div className="flex items-center ml-2">
+              <p className="text-md font-semibold">
+                {user?.alertMessage || ""}
+              </p>
+            </div>
+
+            {/* action button */}
             <div className="mt-6 flex justify-end">
-              <Button variant="primary" type="submit" className="w-auto px-8">
-                Save Changes
+              <Button
+                variant="primary"
+                type="submit"
+                className={cn(
+                  "w-auto px-8",
+                  user.isLoading ? "cursor-no-drop" : "",
+                )}
+              >
+                {user.isLoading ? (
+                  <div className="flex items-center">
+                    <div className="h-3 w-3 animate-spin rounded-full border-4 border-white border-t-transparent" />
+                    &nbsp; Saving ...
+                  </div>
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
             </div>
           </form>
