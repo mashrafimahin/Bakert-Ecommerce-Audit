@@ -1,18 +1,35 @@
 // dependencies
-import type { FC } from "react";
-// interface/@types
-// utilities
+import { useState, type FC } from "react";
+// controller
+import useSlices from "../hooks/useSlices";
 // icons
 import { Shield, User } from "lucide-react";
 // components
 import Typography from "../components/typography";
 import InputBox from "../components/boxes/input";
 import Button from "../components/ui/button";
-// layouts
-// data
 
 // main
 const ProfileLayout: FC = () => {
+  // state
+  const { data: user, dispatch } = useSlices("authController");
+  const [formInfo, setFormInfo] = useState(user.profileData || {});
+
+  // handle field change
+  const handleField = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormInfo((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  // handle submit
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formInfo);
+    // dispatch(updateUserThunk(formInfo));
+  };
+
   return (
     <div className="w-full">
       <Typography variant="subHead" className="mb-4">
@@ -29,13 +46,17 @@ const ProfileLayout: FC = () => {
             </Typography>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form
+            onSubmit={handleSubmit}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
             <InputBox
               label={true}
               labelBody="First Name"
               name="firstName"
               type="text"
-              mainValue={"John"}
+              mainValue={formInfo.firstName}
+              changeFunc={handleField}
               placeholder="First Name"
             />
 
@@ -44,7 +65,8 @@ const ProfileLayout: FC = () => {
               labelBody="Last Name"
               name="lastName"
               type="text"
-              mainValue={"Doe"}
+              mainValue={formInfo.lastName}
+              changeFunc={handleField}
               placeholder="Last Name"
             />
 
@@ -53,7 +75,7 @@ const ProfileLayout: FC = () => {
               labelBody="Email Address"
               name="email"
               type="email"
-              mainValue={"mail@example.com"}
+              mainValue={formInfo.email}
               placeholder="Email Address"
             />
 
@@ -62,7 +84,8 @@ const ProfileLayout: FC = () => {
               labelBody="Phone Number"
               name="phone"
               type="tel"
-              mainValue={"123456789"}
+              mainValue={formInfo.phone}
+              changeFunc={handleField}
               placeholder="Phone Number"
             />
 
@@ -71,7 +94,8 @@ const ProfileLayout: FC = () => {
               labelBody="Country"
               name="country"
               type="text"
-              mainValue={"Bangladesh"}
+              mainValue={formInfo.country}
+              changeFunc={handleField}
               placeholder="Country"
             />
 
@@ -80,7 +104,8 @@ const ProfileLayout: FC = () => {
               labelBody="City"
               name="city"
               type="text"
-              mainValue={"Dhaka"}
+              mainValue={formInfo.city}
+              changeFunc={handleField}
               placeholder="City"
             />
 
@@ -89,7 +114,8 @@ const ProfileLayout: FC = () => {
               labelBody="street"
               name="street"
               type="text"
-              mainValue={"12/5 somewhere"}
+              mainValue={formInfo.address}
+              changeFunc={handleField}
               placeholder="street"
             />
 
@@ -98,16 +124,17 @@ const ProfileLayout: FC = () => {
               labelBody="Zip Code"
               name="zip"
               type="text"
-              mainValue={"7040"}
+              mainValue={formInfo.zip}
+              changeFunc={handleField}
               placeholder="Zip Code"
             />
-          </div>
 
-          <div className="mt-6 flex justify-end">
-            <Button variant="primary" className="w-auto px-8">
-              Save Changes
-            </Button>
-          </div>
+            <div className="mt-6 flex justify-end">
+              <Button variant="primary" type="submit" className="w-auto px-8">
+                Save Changes
+              </Button>
+            </div>
+          </form>
         </section>
 
         <hr className="border-[#E7F6F2]" />
