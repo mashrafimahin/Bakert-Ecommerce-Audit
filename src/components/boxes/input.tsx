@@ -45,7 +45,7 @@ const InputBox: FC<InputType> = ({
         type={type}
         placeholder={placeholder}
         value={mainValue}
-        onChange={(e) => changeFunc(e)}
+        onChange={(e) => changeFunc?.(e)}
         className={cn(
           "appearance-none relative block w-full px-5 py-4 border-none bg-[#E7F6F2] text-[#2C3333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#395B64] sm:text-sm font-medium",
           className,
