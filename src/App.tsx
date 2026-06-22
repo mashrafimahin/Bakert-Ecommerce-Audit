@@ -29,9 +29,15 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const App: FC = () => {
   // state
   const { data } = useSlices("globalController");
-  const { dispatch: authDispatch } = useSlices("authController");
+  const { data: auth, dispatch: authDispatch } = useSlices("authController");
   const { data: productState, dispatch } = useSlices("productController");
   const initialized = useRef(false);
+
+  // on audit
+  const handleAudit = async () => {
+    localStorage.setItem("user_access", import.meta.env.VITE_TEST_ID);
+    await dispatch(authCheckThunk());
+  };
 
   // fetch products on mount
   useEffect(() => {
@@ -70,6 +76,15 @@ const App: FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         </Routes>
+        {/* test button */}
+        {!auth.isLoggedIn && (
+          <button
+            onClick={handleAudit}
+            className="fixed bottom-10 right-8 bg-black py-4 px-6 z-70 rounded-xl cursor-pointer text-white font-semibold"
+          >
+            Audit Mode
+          </button>
+        )}
       </Suspense>
     </>
   );
