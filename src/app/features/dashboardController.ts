@@ -1,6 +1,7 @@
 // dependencies
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { dashboardHandler } from "../../handlers/dashboardHandler";
+import { removeFavorite } from "../../handlers/toggleHandler";
 // interface/@types
 import type { CartItem } from "./globalController";
 type ViewState = "order" | "favorite" | "settings";
@@ -25,6 +26,18 @@ export const dashboardThunk = createAsyncThunk("data/dashboard", async () => {
   return result ?? { orders: [], favorites: [] };
 });
 
+// remove favorite thunk — calls API then updates local state
+export const removeFavoriteThunk = createAsyncThunk(
+  "data/removeFavorite",
+  async (productId: string, { dispatch }) => {
+    const result = await removeFavorite(productId);
+    if (result.success) {
+      dispatch(handleRemoveFavorite({ id: productId }));
+    }
+    return result;
+  },
+);
+
 // slice
 const DashboardSlice = createSlice({
   name: "dashboard",
@@ -32,6 +45,11 @@ const DashboardSlice = createSlice({
   reducers: {
     handleView: (state, action) => {
       state.viewState = action.payload;
+    },
+    handleRemoveFavorite: (state, action) => {
+      state.favoriteHistory = state.favoriteHistory.filter(
+        (item) => item.id !== action.payload.id,
+      );
     },
   },
   extraReducers: (builder) => {
@@ -52,4 +70,4 @@ const DashboardSlice = createSlice({
 
 // exports
 export default DashboardSlice.reducer;
-export const { handleView } = DashboardSlice.actions;
+export const { handleView, handleRemoveFavorite } = DashboardSlice.actions;
