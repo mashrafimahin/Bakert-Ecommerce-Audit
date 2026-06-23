@@ -16,13 +16,19 @@ export interface ProductData {
     rating?: number;
     reviews?: number;
   };
+  isEditMode?: boolean;
+  onRemove?: () => void;
 }
 // icons
-import { CheckCheck, Star } from "lucide-react";
+import { CheckCheck, Star, X } from "lucide-react";
 import Button from "./button";
 
 // main
-const ProductCardView: FC<ProductData> = ({ product }) => {
+const ProductCardView: FC<ProductData> = ({
+  product,
+  isEditMode,
+  onRemove,
+}) => {
   // state
   const { dispatch } = useSlices("globalController");
   const [btnState, setBtnState] = useState<boolean>(false);
@@ -45,10 +51,21 @@ const ProductCardView: FC<ProductData> = ({ product }) => {
   return (
     <div
       onClick={handleClick}
-      className="group bg-white rounded-lg border border-[#A5C9CA]/20 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col cursor-pointer"
+      className="group bg-white rounded-lg border border-[#A5C9CA]/20 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col cursor-pointer relative"
     >
       {/* image */}
       <div className="relative aspect-4/3 overflow-hidden bg-[#E7F6F2]">
+        {isEditMode && onRemove && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            className="absolute top-2 right-2 z-10 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-colors"
+          >
+            <X size={18} />
+          </button>
+        )}
         <img
           src={product.image}
           alt={product.name}
