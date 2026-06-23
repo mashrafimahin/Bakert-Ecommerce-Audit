@@ -23,7 +23,7 @@ export interface CartItem {
 }
 
 // initial state
-interface GlobalState {
+export interface GlobalState {
   showPopup: boolean;
   showNotification: boolean;
   notificationType: string;
