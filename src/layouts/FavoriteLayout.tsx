@@ -15,7 +15,6 @@ const FavoriteLayout: FC = () => {
   const { data, dispatch } = useSlices("dashboardController");
   const favItems = data.favoriteHistory;
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  console.log(favItems);
 
   // toggle edit mode
   const toggleEditMode = (): void => {
