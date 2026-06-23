@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./utils/PrivateRoute";
 // controller
 import useSlices from "./hooks/useSlices";
+import type { GlobalState } from "./app/features/globalController";
+import type { AppDispatch } from "./app/store";
 import { productThunk } from "./app/features/productController";
 import { authCheckThunk } from "./app/features/authenticationController";
 // components
@@ -28,7 +30,10 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 // main
 const App: FC = () => {
   // state
-  const { data } = useSlices("globalController");
+  const { data } = useSlices("globalController") as {
+    data: GlobalState;
+    dispatch: AppDispatch;
+  };
   const { dispatch: authDispatch } = useSlices("authController");
   const { data: productState, dispatch } = useSlices("productController");
   const initialized = useRef(false);
