@@ -1,31 +1,52 @@
 // dependencies
-import { type FC } from "react";
-import { Heart, Star } from "lucide-react";
+import { useState, type FC } from "react";
+// controller
+import useSlices from "../../../hooks/useSlices";
+import { handleNotification } from "../../../app/features/globalController";
+import { addFavorite } from "../../../handlers/toggleHandler";
 // interface/@types
 interface ProductInfoProps {
+  productId: string;
   name: string;
   category: string;
   price: number;
   rating?: number;
   reviews?: number;
   isRecipe: boolean;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
 }
+// icons
+import { BookmarkPlus, BookmarkCheck, Star } from "lucide-react";
 // components
 import Typography from "../../typography";
 
 // main
 const ProductInfo: FC<ProductInfoProps> = ({
+  productId,
   name,
   category,
   price,
   rating,
   reviews,
   isRecipe,
-  isFavorite,
-  onToggleFavorite,
 }) => {
+  // state
+  const { dispatch } = useSlices("globalController");
+  const [marked, setMarked] = useState<boolean>(false);
+  // handler functions
+  const markFavorite = async () => {
+    const result = await addFavorite(productId);
+    console.log(result);
+    // set notification
+    await dispatch(
+      handleNotification({
+        type: "success",
+        message: "Product marked as Favorite.",
+      }),
+    );
+    // change state
+    await setMarked(true);
+  };
+
   return (
     <>
       <div className="mb-6">
@@ -35,12 +56,14 @@ const ProductInfo: FC<ProductInfoProps> = ({
             {name}
           </Typography>
           <button
-            onClick={onToggleFavorite}
+            onClick={markFavorite}
             className="p-2 bg-[#E7F6F2] rounded-full text-[#395B64] hover:bg-[#A5C9CA]/20 transition-colors shrink-0 cursor-pointer"
           >
-            <Heart
-              className={`w-4 h-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`}
-            />
+            {marked ? (
+              <BookmarkCheck size={20} className="text-green-600" />
+            ) : (
+              <BookmarkPlus size={20} />
+            )}
           </button>
         </div>
 
