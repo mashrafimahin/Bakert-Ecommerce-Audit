@@ -41,8 +41,8 @@ const DashboardSlice = createSlice({
       })
       .addCase(dashboardThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.orderHistory = action.payload.orders;
-        state.favoriteHistory = action.payload.favorites;
+        state.orderHistory = action.payload.orders || [];
+        state.favoriteHistory = action.payload.favorites || [];
       })
       .addCase(dashboardThunk.rejected, (state) => {
         state.isLoading = false;
