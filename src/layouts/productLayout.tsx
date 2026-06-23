@@ -142,6 +142,7 @@ const ProductDetails: FC = () => {
 
             <div className="w-full lg:w-1/2 flex flex-col">
               <ProductInfo
+                productId={item.id}
                 name={item.name}
                 category={item.category}
                 price={item.price}
