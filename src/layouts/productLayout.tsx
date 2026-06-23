@@ -26,7 +26,6 @@ const ProductDetails: FC = () => {
   const navigate = useNavigate();
   // Local UI state
   const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
   // Review form state
   const [newReviewText, setNewReviewText] = useState("");
   const [newRating, setNewRating] = useState(5);
@@ -149,8 +148,6 @@ const ProductDetails: FC = () => {
                 rating={item.rating}
                 reviews={item.reviews}
                 isRecipe={isRecipe}
-                isFavorite={isFavorite}
-                onToggleFavorite={() => setIsFavorite(!isFavorite)}
               />
 
               <hr className="border-[#E7F6F2]" />
