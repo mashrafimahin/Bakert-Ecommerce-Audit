@@ -35,12 +35,13 @@ const ProductInfo: FC<ProductInfoProps> = ({
   // handler functions
   const markFavorite = async () => {
     const result = await addFavorite(productId);
-    console.log(result);
     // set notification
     await dispatch(
       handleNotification({
-        type: "success",
-        message: "Product marked as Favorite.",
+        type: result.success ? "success" : "error",
+        message: result.success
+          ? "Product marked as Favorite."
+          : "Failed to save.",
       }),
     );
     // change state
