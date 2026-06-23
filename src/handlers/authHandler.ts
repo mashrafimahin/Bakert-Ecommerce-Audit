@@ -8,26 +8,34 @@ class Authentication {
   // auth check
   authChecking = async () => {
     const userId = localStorage.getItem("user_access");
+
+    if (!userId) {
+      return {
+        success: false,
+      };
+    }
+
     try {
-      if (userId) {
-        const response = await fetch(`${import.meta.env.VITE_API_KEY}/check`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId }),
-          credentials: "include",
-        });
-        const data = await response.json();
-        if (data.success) {
-          return data;
-        } else {
-          throw Error("Authentication Failed! Login again.");
-        }
+      const response = await fetch(`${import.meta.env.VITE_API_KEY}/check`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+        credentials: "include",
+      });
+      const data = await response.json();
+      if (data.success) {
+        return data;
+      } else {
+        throw Error("Authentication Failed! Login again.");
       }
     } catch (err) {
       console.log(err);
-      return false;
+      return {
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong",
+      };
     }
   };
 
@@ -61,7 +69,10 @@ class Authentication {
       }
     } catch (err) {
       console.log(err);
-      return err;
+      return {
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong",
+      };
     }
   };
 
@@ -95,7 +106,10 @@ class Authentication {
       }
     } catch (err) {
       console.log(err);
-      return err;
+      return {
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong",
+      };
     }
   };
 
@@ -129,7 +143,10 @@ class Authentication {
       }
     } catch (err) {
       console.log(err);
-      return err;
+      return {
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong",
+      };
     }
   };
 
@@ -157,6 +174,10 @@ class Authentication {
       }
     } catch (err) {
       console.log(err);
+      return {
+        success: false,
+        message: err instanceof Error ? err.message : "Something went wrong",
+      };
     }
   };
 }
