@@ -8,15 +8,14 @@ import { productHandler } from "../../handlers/productHandler";
 // types
 import type { CartItem } from "./globalController";
 export interface Review {
-  id: number;
+  id?: string;
+  productId?: string;
   author: string;
   rating: number;
-  date: string;
   text: string;
+  date?: string;
 }
-export interface ProductWithReviews extends CartItem {
-  reviewsList: Review[];
-}
+export type ProductWithReviews = CartItem;
 
 // initial state
 interface ProductState {
@@ -24,6 +23,7 @@ interface ProductState {
   error: boolean;
   message: string;
   allProducts: ProductWithReviews[];
+  reviews: Review[];
   searchQuery: string;
   activeCategory: string;
 }
@@ -33,6 +33,7 @@ const initialState: ProductState = {
   error: false,
   message: "",
   allProducts: [],
+  reviews: [],
   searchQuery: "",
   activeCategory: "All",
 };
@@ -56,14 +57,21 @@ const ProductSlice = createSlice({
     },
     addReview: (
       state,
-      action: PayloadAction<{ productId: string; review: Review }>,
+      action: PayloadAction<{
+        productId: string;
+        review: Omit<Review, "productId">;
+      }>,
     ) => {
-      const product = state.allProducts.find(
-        (p) => p.id === action.payload.productId,
-      );
-      if (product) {
-        product.reviewsList.unshift(action.payload.review);
-      }
+      const reviewWithProductId: Review = {
+        ...action.payload.review,
+        productId: action.payload.productId,
+        date: new Date().toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+      };
+      state.reviews.unshift(reviewWithProductId);
     },
   },
   extraReducers: (builder) => {
