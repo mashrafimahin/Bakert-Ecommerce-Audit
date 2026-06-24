@@ -15,7 +15,7 @@ const ReviewsList: FC<productIDtype> = ({ productID }) => {
   // state
   const { data } = useSlices("productController");
   // Grab reviews from Redux so they persist per product
-  const reviews = data.reviews.filter((r) => r.productId === productID);
+  const reviews = data.reviews.filter((r) => r.id === productID);
 
   return (
     <div className="w-full lg:w-2/3 space-y-8">
