@@ -81,9 +81,6 @@ const ProductDetails: FC = () => {
   const handleDecrement = () => setQuantity(Math.max(1, quantity - 1));
   const handleIncrement = () => setQuantity(quantity + 1);
 
-  // Grab reviews from Redux so they persist per product
-  const reviews = data.reviews.filter((r) => r.productId === item.id);
-
   return (
     <div className="bg-[#E7F6F2] min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -145,7 +142,7 @@ const ProductDetails: FC = () => {
                 {item.rating}
               </span>
               <span className="text-[#A5C9CA] font-medium">
-                ({reviews.length} reviews)
+                ({item.reviews} reviews)
               </span>
             </div>
           </div>
