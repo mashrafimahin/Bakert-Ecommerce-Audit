@@ -41,7 +41,7 @@ const initialState: ProductState = {
 // data fetch thunk — fetches products from the handler
 export const productThunk = createAsyncThunk("product/fetch", async () => {
   const result = await productHandler();
-  return result ?? [];
+  return result ?? { products: [], reviews: [] };
 });
 
 // slice
@@ -83,8 +83,8 @@ const ProductSlice = createSlice({
       })
       .addCase(productThunk.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.allProducts = action.payload;
-        // state.message = "";
+        state.allProducts = action.payload.products;
+        state.reviews = action.payload.reviews;
       })
       .addCase(productThunk.rejected, (state, action) => {
         state.isLoading = false;
