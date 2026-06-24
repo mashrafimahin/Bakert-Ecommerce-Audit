@@ -35,7 +35,7 @@ const App: FC = () => {
     dispatch: AppDispatch;
   };
   const { dispatch: authDispatch } = useSlices("authController");
-  const { data: productState, dispatch } = useSlices("productController");
+  const { dispatch } = useSlices("productController");
   const initialized = useRef(false);
 
   // fetch products on mount
@@ -48,9 +48,9 @@ const App: FC = () => {
   }, []);
 
   // checking
-  if (productState.isLoading) {
-    return <Loader />;
-  }
+  // if (productState.isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <>
