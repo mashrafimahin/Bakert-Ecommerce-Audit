@@ -1,18 +1,15 @@
+// utils
+import { IdReplacer } from "../utils/IdReplacer";
+
 // main
 export const productHandler = async () => {
   try {
     const response = await fetch(`${import.meta.env.VITE_API_KEY}/products`);
     const data = await response.json();
-
     // refine data
-    const refinedData = [];
-
-    // loop
-    for (let i = 0; i < data.length; i++) {
-      const new_product = { ...data[i], id: data[i].product_id };
-      refinedData.push(new_product);
-    }
-
+    const products = IdReplacer(data.products, "product_id");
+    const reviews = IdReplacer(data.reviews, "product_id");
+    const refinedData = { products, reviews };
     // response
     return refinedData;
   } catch (err) {
