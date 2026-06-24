@@ -1,16 +1,22 @@
 // dependencies
 import { type FC } from "react";
 import { Star } from "lucide-react";
-import type { Review } from "../../../app/features/productController";
+// controller
+import useSlices from "../../../hooks/useSlices";
 // interface/@types
-interface ReviewsListProps {
-  reviews: Review[];
-}
+type productIDtype = {
+  productID: string;
+};
 // components
 import Typography from "../../typography";
 
 // main
-const ReviewsList: FC<ReviewsListProps> = ({ reviews }) => {
+const ReviewsList: FC<productIDtype> = ({ productID }) => {
+  // state
+  const { data } = useSlices("productController");
+  // Grab reviews from Redux so they persist per product
+  const reviews = data.reviews.filter((r) => r.productId === productID);
+
   return (
     <div className="w-full lg:w-2/3 space-y-8">
       {reviews.length === 0 ? (
