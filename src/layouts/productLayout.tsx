@@ -5,8 +5,7 @@ import { useParams, Link, useNavigate } from "react-router";
 import { Star } from "lucide-react";
 // Redux controller
 import useSlices from "../hooks/useSlices";
-import { productThunk, addReview } from "../app/features/productController";
-import type { Review } from "../app/features/productController";
+import { productThunk } from "../app/features/productController";
 import { handleAddCart } from "../app/features/globalController";
 // components
 import Typography from "../components/typography";
@@ -26,9 +25,6 @@ const ProductDetails: FC = () => {
   const navigate = useNavigate();
   // Local UI state
   const [quantity, setQuantity] = useState(1);
-  // Review form state
-  const [newReviewText, setNewReviewText] = useState("");
-  const [newRating, setNewRating] = useState(5);
   // Redux state
   const { data, dispatch } = useSlices("productController");
 
@@ -71,31 +67,6 @@ const ProductDetails: FC = () => {
   // Determine if this item is a digital recipe
   const isRecipe = item.category === "recipe";
 
-  // Event handlers
-  const handleSubmitReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newReviewText.trim()) return;
-
-    const review: Review = {
-      id: Date.now(),
-      author: "Jane Doe",
-      rating: newRating,
-      date: new Date().toLocaleDateString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      }),
-      text: newReviewText,
-    };
-
-    // attached to this product's reviewsList
-    dispatch(addReview({ productId: item.id, review }));
-
-    // Reset form
-    setNewReviewText("");
-    setNewRating(5);
-  };
-
   // Add to the cart
   const handleAddToCart = () => {
     dispatch(
@@ -111,7 +82,7 @@ const ProductDetails: FC = () => {
   const handleIncrement = () => setQuantity(quantity + 1);
 
   // Grab reviews from Redux so they persist per product
-  const reviews = item.reviewsList ?? [];
+  const reviews = data.reviews.filter((r) => r.productId === item.id);
 
   return (
     <div className="bg-[#E7F6F2] min-h-screen py-8">
@@ -170,7 +141,9 @@ const ProductDetails: FC = () => {
             <Typography variant="subHead">Customer Reviews</Typography>
             <div className="flex items-center gap-2">
               <Star className="w-6 h-6 fill-amber-500 text-amber-500" />
-              <span className="text-xl font-black text-[#2C3333]">4.8</span>
+              <span className="text-xl font-black text-[#2C3333]">
+                {item.rating}
+              </span>
               <span className="text-[#A5C9CA] font-medium">
                 ({reviews.length} reviews)
               </span>
@@ -178,14 +151,8 @@ const ProductDetails: FC = () => {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-12">
-            <ReviewsList reviews={reviews} />
-            <ReviewForm
-              newReviewText={newReviewText}
-              newRating={newRating}
-              onTextChange={setNewReviewText}
-              onRatingChange={setNewRating}
-              onSubmit={handleSubmitReview}
-            />
+            <ReviewsList productID={item.id} />
+            <ReviewForm productID={item.id} />
           </div>
         </div>
       </div>
