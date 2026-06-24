@@ -11,6 +11,7 @@ import { cn } from "../../../utils/ClassMerger";
 import type { Review } from "../../../app/features/productController";
 import { addReview } from "../../../app/features/productController";
 import { postNewReview } from "../../../handlers/toggleHandler";
+import { handleNotification } from "../../../app/features/globalController";
 // components
 import Typography from "../../typography";
 import Button from "../button";
@@ -19,6 +20,7 @@ import useSlices from "../../../hooks/useSlices";
 // main
 const ReviewForm: FC<productIDtype> = ({ productID }) => {
   // state
+  const { dispatch: notification } = useSlices("globalController");
   const { dispatch } = useSlices("productController");
   const { data: user } = useSlices("authController");
   const user_name = `${user.profileData.firstName} ${user.profileData.lastName}`;
@@ -46,6 +48,9 @@ const ReviewForm: FC<productIDtype> = ({ productID }) => {
     // timeout
     setTimeout(() => {
       // add review to the top-level reviews array
+      notification(
+        handleNotification({ type: "success", message: "Review posted." }),
+      );
       dispatch(addReview({ productId: productID, review }));
       // Reset form
       setNewReviewText("");
