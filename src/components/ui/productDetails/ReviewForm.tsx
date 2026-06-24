@@ -2,32 +2,56 @@
 import { useState, type FC } from "react";
 import { Star, Send } from "lucide-react";
 // interface/@types
-interface ReviewFormProps {
-  newReviewText: string;
-  newRating: number;
-  onTextChange: (text: string) => void;
-  onRatingChange: (rating: number) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
+type productIDtype = {
+  productID: string;
+};
+// utilities
+import { cn } from "../../../utils/ClassMerger";
+// controller
+import type { Review } from "../../../app/features/productController";
+import { addReview } from "../../../app/features/productController";
+import { postNewReview } from "../../../handlers/toggleHandler";
 // components
 import Typography from "../../typography";
 import Button from "../button";
-import { cn } from "../../../utils/ClassMerger";
+import useSlices from "../../../hooks/useSlices";
 
 // main
-const ReviewForm: FC<ReviewFormProps> = ({
-  newReviewText,
-  newRating,
-  onTextChange,
-  onRatingChange,
-  onSubmit,
-}) => {
+const ReviewForm: FC<productIDtype> = ({ productID }) => {
   // state
+  const { dispatch } = useSlices("productController");
+  const { data: user } = useSlices("authController");
+  const user_name = `${user.profileData.firstName} ${user.profileData.lastName}`;
+  // Local UI state
+  const [newRating, setNewRating] = useState(5);
+  const [newReviewText, setNewReviewText] = useState("");
   const [sending, setSending] = useState<boolean>(false);
 
-  // handle button
-  const handleButton = (): void => {
+  // Event handlers
+  const handleSubmitReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    // checking
+    if (!newReviewText.trim()) return;
+    // loading
     setSending(true);
+    // modify info
+    const review: Review = {
+      productId: productID,
+      author: user_name,
+      rating: newRating,
+      text: newReviewText,
+    };
+    // save data through api
+    postNewReview(review);
+    // timeout
+    setTimeout(() => {
+      // add review to the top-level reviews array
+      dispatch(addReview({ productId: productID, review }));
+      // Reset form
+      setNewReviewText("");
+      setNewRating(5);
+      setSending(false);
+    }, 800);
   };
 
   return (
@@ -38,7 +62,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
         </Typography>
 
         {/* form */}
-        <form onSubmit={onSubmit} className="space-y-6">
+        <form onSubmit={handleSubmitReview} className="space-y-6">
           {/* Star rating picker */}
           <div>
             <label className="block text-sm font-bold text-[#395B64] mb-3">
@@ -49,7 +73,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
                 <button
                   key={star}
                   type="button"
-                  onClick={() => onRatingChange(star)}
+                  onClick={() => setNewRating(star)}
                   className="focus:outline-none transition-transform hover:scale-110"
                 >
                   <Star
@@ -68,7 +92,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
             <textarea
               rows={4}
               value={newReviewText}
-              onChange={(e) => onTextChange(e.target.value)}
+              onChange={(e) => setNewReviewText(e.target.value)}
               placeholder="What did you love about it?"
               className="w-full px-4 py-3 rounded-xl border-none focus:ring-2 focus:ring-[#395B64] text-[#2C3333] resize-none bg-white font-medium"
               required
@@ -78,9 +102,7 @@ const ReviewForm: FC<ReviewFormProps> = ({
           {/* Submit button */}
           <Button
             variant="primary"
-            buttonHandler={() => {
-              handleButton();
-            }}
+            type="submit"
             className={cn("flex items-center", sending ? "cursor-no-drop" : "")}
             disabled={sending}
           >
