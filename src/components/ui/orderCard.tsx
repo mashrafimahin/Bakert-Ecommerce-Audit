@@ -16,15 +16,15 @@ const OrderCard: FC<ProductInfoType> = ({ info }) => {
       <div className="flex flex-col sm:flex-row justify-between sm:items-center border-b border-[#E7F6F2] pb-5 mb-5 gap-4">
         <div>
           <Typography className="text-sm font-bold text-[#A5C9CA]">
-            Order {info.id}
+            Order
           </Typography>
           <Typography className="font-bold text-[#2C3333] mt-1">
-            Placed on {info.orderedDate}
+            Placed on {info.date}
           </Typography>
         </div>
         <div className="flex items-center gap-4">
           <span className="px-4 py-1.5 bg-[#E7F6F2] text-[#395B64] text-sm font-bold rounded-full border border-[#A5C9CA]/50">
-            {info.status}
+            Placed
           </span>
           <span className="font-black text-xl text-[#2C3333]">
             ${info.price.toFixed(2)}
