@@ -8,7 +8,7 @@ interface ProductInfoType {
 // components
 import Typography from "../typography";
 import Button from "./button";
-
+//
 // main
 const OrderCard: FC<ProductInfoType> = ({ info }) => {
   return (
