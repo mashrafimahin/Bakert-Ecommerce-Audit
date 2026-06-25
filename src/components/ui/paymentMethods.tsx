@@ -1,5 +1,5 @@
 // dependencies
-import type { ChangeEvent, FC } from "react";
+import { useState, type ChangeEvent, type FC } from "react";
 // interface/@types
 type PaymentMethodsProps = {
   changeFunc: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -11,6 +11,10 @@ import InputBox from "../boxes/input";
 
 // main
 const PaymentMethods: FC<PaymentMethodsProps> = ({ changeFunc }) => {
+  // local state
+  const [show, setShow] = useState<string>("credit/debit");
+  const visible = show === "credit/debit";
+
   return (
     <div className="space-y-4">
       {/* Method 1 */}
@@ -20,7 +24,10 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ changeFunc }) => {
           name="method"
           value={"credit/debit"}
           className="w-5 h-5 text-[#395B64] focus:ring-[#395B64]"
-          onChange={changeFunc}
+          onChange={(e) => {
+            setShow(e.target.value);
+            changeFunc(e);
+          }}
           defaultChecked
         />
         <CreditCard className="w-6 h-6 text-[#395B64]" />
@@ -31,28 +38,30 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ changeFunc }) => {
       </label>
 
       {/* Card Details - method 1 (Visible when selected) */}
-      <div className="pl-14 pr-4 py-2 space-y-4">
-        <InputBox
-          name="cardNumber"
-          type="number"
-          placeholder="Card Number"
-          changeFunc={changeFunc}
-        />
-        <div className="grid grid-cols-2 gap-4">
+      {visible && (
+        <div className="px-4 md:px-8 py-2 space-y-4">
           <InputBox
-            name="expiryDate"
-            type="text"
-            placeholder="MM/YY"
-            changeFunc={changeFunc}
-          />
-          <InputBox
-            name="cvc"
+            name="cardNumber"
             type="number"
-            placeholder="CVC"
+            placeholder="Card Number"
             changeFunc={changeFunc}
           />
+          <div className="grid grid-cols-2 gap-4">
+            <InputBox
+              name="expiryDate"
+              type="text"
+              placeholder="MM/YY"
+              changeFunc={changeFunc}
+            />
+            <InputBox
+              name="cvc"
+              type="number"
+              placeholder="CVC"
+              changeFunc={changeFunc}
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Method 2 */}
       <label className="flex items-center gap-4 p-5 rounded-2xl border-2 border-transparent bg-[#E7F6F2] hover:bg-[#A5C9CA]/20 cursor-pointer transition-colors">
@@ -60,8 +69,11 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ changeFunc }) => {
           type="radio"
           name="method"
           value={"cashOnDelivery"}
-          onChange={changeFunc}
           className="w-5 h-5 text-[#395B64] focus:ring-[#395B64]"
+          onChange={(e) => {
+            setShow(e.target.value);
+            changeFunc(e);
+          }}
         />
         <Truck className="w-6 h-6 text-[#395B64]" />
         <div className="flex-1">
@@ -76,8 +88,11 @@ const PaymentMethods: FC<PaymentMethodsProps> = ({ changeFunc }) => {
           type="radio"
           name="method"
           value={"localPayment"}
-          onChange={changeFunc}
           className="w-5 h-5 text-[#395B64] focus:ring-[#395B64]"
+          onChange={(e) => {
+            setShow(e.target.value);
+            changeFunc(e);
+          }}
         />
         <Banknote className="w-6 h-6 text-[#395B64]" />
         <div className="flex-1">
