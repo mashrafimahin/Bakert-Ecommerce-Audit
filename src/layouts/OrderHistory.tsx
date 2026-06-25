@@ -21,8 +21,8 @@ const OrderHistory: FC = () => {
       {/* Order Item */}
       {orders.length > 0 ? (
         <div className="space-y-6">
-          {orders.map((item) => (
-            <OrderCard key={item.id} info={item} />
+          {orders.map((item, i) => (
+            <OrderCard key={i} info={item} />
           ))}
         </div>
       ) : (
