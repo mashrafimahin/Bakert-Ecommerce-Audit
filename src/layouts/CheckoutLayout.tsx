@@ -1,10 +1,13 @@
 // dependencies
 import { useState, type FC } from "react";
+// utils
+import { cn } from "../utils/ClassMerger";
 // interface/@types
 interface FormInfo {
   firstName: string;
   lastName: string;
   address: string;
+  phone: string;
   city: string;
   zip: string;
 }
@@ -24,13 +27,16 @@ import CheckoutProduct from "../components/ui/checkoutProduct";
 import Button from "../components/ui/button";
 // hooks
 import useSlices from "../hooks/useSlices";
+import { checkoutPost } from "../handlers/toggleHandler";
+import { handleNotification } from "../app/features/globalController";
 // data
 const DELIVERY_FEE = 5;
 
 // main
 const CheckoutLayout: FC = () => {
   // redux
-  const { data } = useSlices("globalController");
+  const { data, dispatch } = useSlices("globalController");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { cartDetails, totalPrice } = data;
 
   // form info
@@ -38,6 +44,7 @@ const CheckoutLayout: FC = () => {
     firstName: "",
     lastName: "",
     address: "",
+    phone: "",
     city: "",
     zip: "",
   });
@@ -80,13 +87,35 @@ const CheckoutLayout: FC = () => {
   };
 
   // handle submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      ...formData,
+    setIsLoading(true);
+    // gather information
+    const checkoutDetails = {
+      info: formData,
       payment: { ...paymentInfo },
       total: totalCount,
-    });
+      lists: cartDetails,
+    };
+    // post
+    const result = await checkoutPost(checkoutDetails);
+    // timeout
+    setTimeout(() => {
+      dispatch(
+        handleNotification({
+          type: result.success ? "success" : "error",
+          message: result?.message || "Something is wrong.",
+        }),
+      );
+      setIsLoading(false);
+    }, 3000);
+    // timeout
+    setTimeout(() => {
+      // redirect
+      if (result.success) {
+        window.location.href = "/dashboard";
+      }
+    }, 4000);
   };
 
   return (
@@ -114,7 +143,7 @@ const CheckoutLayout: FC = () => {
 
             {/* input fields */}
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <InputBox
                   name="firstName"
                   type="text"
@@ -130,16 +159,23 @@ const CheckoutLayout: FC = () => {
                   changeFunc={handleField}
                   required
                 />
-              </div>
 
-              <InputBox
-                name="address"
-                type="text"
-                placeholder="Street Address"
-                changeFunc={handleField}
-                required
-              />
-              <div className="grid grid-cols-2 gap-4">
+                <InputBox
+                  name="address"
+                  type="text"
+                  placeholder="Street Address"
+                  changeFunc={handleField}
+                  required
+                />
+
+                <InputBox
+                  name="phone"
+                  type="text"
+                  placeholder="Contact Number"
+                  changeFunc={handleField}
+                  required
+                />
+
                 <InputBox
                   name="city"
                   type="text"
@@ -210,9 +246,20 @@ const CheckoutLayout: FC = () => {
             <Button
               type="submit"
               variant="primary"
-              className="text-lg font-black bg-[#A5C9CA] text-[#2C3333] hover:bg-[#E7F6F2] mb-4"
+              className={cn(
+                "text-lg font-black bg-[#A5C9CA] text-[#2C3333] hover:bg-[#E7F6F2] mb-4",
+                isLoading ? "cursor-no-drop" : "",
+              )}
+              disabled={isLoading}
             >
-              Confirm & Pay
+              {isLoading ? (
+                <div className="flex items-center">
+                  <div className="h-3 w-3 animate-spin rounded-full border-4 border-[#2C3333] border-t-transparent" />
+                  &nbsp; Processing ...
+                </div>
+              ) : (
+                "Confirm & Pay"
+              )}
             </Button>
 
             {/* info */}
