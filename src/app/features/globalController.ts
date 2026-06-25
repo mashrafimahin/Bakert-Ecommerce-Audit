@@ -20,6 +20,7 @@ export interface CartItem {
   quantity?: number;
   orderedDate?: string;
   status?: string;
+  date?: string;
 }
 
 // initial state
