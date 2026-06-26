@@ -11,7 +11,6 @@ import {
   handlePopup,
   handleRemoveItem,
   handleUpdate,
-  hideNotification,
 } from "../app/features/globalController";
 // icons
 import { ShoppingBag, X, Trash2 } from "lucide-react";
@@ -73,18 +72,13 @@ const Cart: FC = () => {
           message: "You must add some products.",
         }),
       );
-
-      setTimeout(() => {
-        dispatch(hideNotification());
-      }, 3000);
-
       return;
     }
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      navigation("checkout");
       dispatch(handlePopup());
+      navigation("checkout");
     }, 1400);
   };
 

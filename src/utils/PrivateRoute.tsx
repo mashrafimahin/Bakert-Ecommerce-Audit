@@ -2,7 +2,10 @@
 import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import useSlices from "../hooks/useSlices";
-import { handleNotification } from "../app/features/globalController";
+import {
+  handleNotification,
+  hideNotification,
+} from "../app/features/globalController";
 
 // main
 const PrivateRoute = () => {
@@ -18,6 +21,8 @@ const PrivateRoute = () => {
           message: "You need to login first.",
         }),
       );
+    } else {
+      dispatch(hideNotification());
     }
   }, [auth.isLoggedIn, dispatch]);
 

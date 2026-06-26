@@ -32,20 +32,22 @@ const FavoriteLayout: FC = () => {
         <Typography variant="subHead" className="mb-0">
           Your Favorites
         </Typography>
-        <button
-          onClick={toggleEditMode}
-          className="flex items-center gap-1 px-3 py-1.5 text-sm font-semibold text-[#395B64] hover:text-[#2C3333] bg-[#E7F6F2] hover:bg-[#A5C9CA]/30 rounded-lg transition-colors"
-        >
-          {isEditMode ? (
-            <>
-              <X size={16} /> Done
-            </>
-          ) : (
-            <>
-              <Edit2 size={16} /> Edit
-            </>
-          )}
-        </button>
+        {favItems.length > 0 && (
+          <button
+            onClick={toggleEditMode}
+            className="flex items-center gap-1 px-3 py-1.5 text-sm font-semibold text-[#395B64] hover:text-[#2C3333] bg-[#E7F6F2] hover:bg-[#A5C9CA]/30 rounded-lg transition-colors"
+          >
+            {isEditMode ? (
+              <>
+                <X size={16} /> Done
+              </>
+            ) : (
+              <>
+                <Edit2 size={16} /> Edit
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Order Item */}
