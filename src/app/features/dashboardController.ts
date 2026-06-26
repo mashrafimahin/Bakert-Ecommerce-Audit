@@ -11,6 +11,7 @@ interface ProductState {
   viewState: ViewState;
   orderHistory: CartItem[];
   favoriteHistory: CartItem[];
+  dataFetched: boolean;
 }
 
 const initialState: ProductState = {
@@ -18,6 +19,7 @@ const initialState: ProductState = {
   viewState: "order",
   orderHistory: [],
   favoriteHistory: [],
+  dataFetched: false,
 };
 
 // data fetch thunk — fetches products from the handler
@@ -61,6 +63,7 @@ const DashboardSlice = createSlice({
         state.isLoading = false;
         state.orderHistory = action.payload.orders || [];
         state.favoriteHistory = action.payload.favorites || [];
+        state.dataFetched = true;
       })
       .addCase(dashboardThunk.rejected, (state) => {
         state.isLoading = false;
