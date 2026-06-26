@@ -32,9 +32,9 @@ const AboutLayout: FC = () => {
       </section>
 
       {/* Our History Section */}
-      <section className="py-20 bg-white rounded-3xl shadow-sm relative z-20 -mt-10 mx-4 sm:mx-8 lg:mx-auto max-w-7xl border border-[#A5C9CA]/20">
+      <section className="py-6 md:py-20 bg-white rounded-3xl shadow-sm relative z-20 -mt-10 mx-4 sm:mx-8 lg:mx-auto max-w-7xl border border-[#A5C9CA]/20">
         <div className="px-6 lg:px-12">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
+          <div className="flex flex-col min-[970px]:flex-row items-center gap-16">
             <div className="w-full lg:w-1/2">
               <div className="relative aspect-square rounded-3xl overflow-hidden bg-[#E7F6F2]">
                 <img
