@@ -76,7 +76,7 @@ class Authentication {
     }
   };
 
-  // signup
+  // update
   updateProcess = async (userData: UserInfo) => {
     try {
       const userId = localStorage.getItem("user_access");
@@ -96,9 +96,9 @@ class Authentication {
 
       if (data.success) {
         // auto reload -> fetch user info
-        setTimeout(() => {
-          window.location.reload();
-        }, 800);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 800);
 
         return data;
       } else {
