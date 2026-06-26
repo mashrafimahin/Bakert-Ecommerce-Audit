@@ -61,7 +61,7 @@ class Authentication {
         // auto reload -> fetch user info
         setTimeout(() => {
           window.location.href = "/dashboard";
-        }, 500);
+        }, 100);
 
         return data;
       } else {
@@ -135,7 +135,7 @@ class Authentication {
         // auto reload -> fetch user info
         setTimeout(() => {
           window.location.href = "/dashboard";
-        }, 500);
+        }, 100);
 
         return data;
       } else {
@@ -169,6 +169,10 @@ class Authentication {
       if (data.success) {
         // clear -> local
         localStorage.clear();
+        // redirect
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 200);
       } else {
         throw Error("Logout Failed! Try again.");
       }
