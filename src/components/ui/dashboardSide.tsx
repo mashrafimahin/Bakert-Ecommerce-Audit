@@ -1,5 +1,5 @@
 // dependencies
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 // controller
 import useSlices from "../../hooks/useSlices";
@@ -35,6 +35,7 @@ const DashboardSide: FC = () => {
   // state
   const { data, dispatch } = useSlices("dashboardController");
   const { data: user } = useSlices("authController");
+  const [process, setProcess] = useState<boolean>(false);
   const navigate = useNavigate();
 
   // handle Click
@@ -44,8 +45,12 @@ const DashboardSide: FC = () => {
 
   // handle logout
   const handleLogOut = () => {
-    dispatch(logOutThunk());
-    navigate("/", { replace: true });
+    setProcess(true);
+    // timeout
+    setTimeout(() => {
+      dispatch(logOutThunk());
+      navigate("/", { replace: true });
+    }, 1800);
   };
 
   return (
@@ -89,7 +94,8 @@ const DashboardSide: FC = () => {
               onClick={handleLogOut}
               className="flex items-center gap-3 px-5 py-4 text-[#A5C9CA] hover:text-red-500 hover:bg-red-50 rounded-xl font-bold transition-colors cursor-pointer"
             >
-              <LogOut className="w-5 h-5" /> Sign Out
+              <LogOut className="w-5 h-5" />{" "}
+              {process ? "Singing Out ..." : "Sign Out"}
             </span>
           </div>
         </nav>
