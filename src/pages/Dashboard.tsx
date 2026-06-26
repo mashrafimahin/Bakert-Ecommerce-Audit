@@ -33,11 +33,13 @@ const Dashboard: FC = () => {
   // view components
   const CurrentView = VIEW_COMPONENTS[data.viewState];
 
-  // auto scroll + fetch data
+  // auto scroll + fetch data only once
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(dashboardThunk());
-  }, [dispatch]);
+    if (!data.dataFetched) {
+      dispatch(dashboardThunk());
+    }
+  }, [dispatch, data.dataFetched]);
 
   // return loader
   if (data.isLoading) {
