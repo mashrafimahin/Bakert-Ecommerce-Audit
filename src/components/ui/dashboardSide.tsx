@@ -66,7 +66,7 @@ const DashboardSide: FC = () => {
               variant="subHead"
               className="font-bold text-[#2C3333] text-lg mb-0"
             >
-              {`${user.profileData.firstName} ${user.profileData.lastName}`}
+              {`${user.profileData.firstName} ${user.profileData?.lastName ?? ""}`}
             </Typography>
             <Typography className="text-sm font-medium text-[#A5C9CA]">
               {user.profileData.email}
