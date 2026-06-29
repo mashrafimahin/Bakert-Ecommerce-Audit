@@ -1,5 +1,5 @@
 // dependencies
-import { lazy, Suspense, useEffect, useRef, useState, type FC } from "react";
+import { lazy, Suspense, useEffect, useRef, type FC } from "react";
 import { Route, Routes } from "react-router-dom";
 // utilities
 import PrivateRoute from "./utils/PrivateRoute";
@@ -30,19 +30,17 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 // main
 const App: FC = () => {
   // state
-  const [show, setShow] = useState<boolean>(true);
   const { data } = useSlices("globalController") as {
     data: GlobalState;
     dispatch: AppDispatch;
   };
-  const { dispatch: authDispatch } = useSlices("authController");
+  const { data: auth, dispatch: authDispatch } = useSlices("authController");
   const { dispatch } = useSlices("productController");
   const initialized = useRef(false);
 
   // on audit handler
   const handleClick = () => {
     localStorage.setItem("user_access", import.meta.env.VITE_TEST_ID);
-    setShow(false);
   };
 
   // fetch products on mount
@@ -83,7 +81,7 @@ const App: FC = () => {
           </Route>
         </Routes>
         {/* audit method */}
-        {show && (
+        {auth.isLoggedIn && (
           <button
             onClick={handleClick}
             className="fixed bottom-10 right-10 p-3 px-4 bg-black text-white text-md z-9999 rounded-md shadow-sm cursor-pointer"
