@@ -43,6 +43,7 @@ const App: FC = () => {
   const handleClick = () => {
     localStorage.setItem("user_access", import.meta.env.VITE_TEST_ID);
     setShow(false);
+    window.location.reload();
   };
 
   // fetch products on mount
