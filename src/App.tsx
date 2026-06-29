@@ -39,8 +39,9 @@ const App: FC = () => {
   const initialized = useRef(false);
 
   // on audit handler
-  const handleClick = () => {
+  const handleClick = async () => {
     localStorage.setItem("user_access", import.meta.env.VITE_TEST_ID);
+    await authDispatch(authCheckThunk());
   };
 
   // fetch products on mount
