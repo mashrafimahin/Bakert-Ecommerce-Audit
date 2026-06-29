@@ -81,7 +81,7 @@ const App: FC = () => {
           </Route>
         </Routes>
         {/* audit method */}
-        {auth.isLoggedIn && (
+        {!auth.isLoggedIn && (
           <button
             onClick={handleClick}
             className="fixed bottom-10 right-10 p-3 px-4 bg-black text-white text-md z-9999 rounded-md shadow-sm cursor-pointer"
