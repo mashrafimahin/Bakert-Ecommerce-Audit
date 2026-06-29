@@ -42,6 +42,10 @@ const App: FC = () => {
   const handleClick = async () => {
     localStorage.setItem("user_access", import.meta.env.VITE_TEST_ID);
     await authDispatch(authCheckThunk());
+    dispatch(handleNotification({
+      type: "warning",
+      message: "All authentication's are removed. Make sure logout after browisng." 
+    }))
   };
 
   // fetch products on mount
