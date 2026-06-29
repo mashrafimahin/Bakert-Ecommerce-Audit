@@ -6,6 +6,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 // controller
 import useSlices from "./hooks/useSlices";
 import type { GlobalState } from "./app/features/globalController";
+import { handleNotification } from "./app/features/globalController";
 import type { AppDispatch } from "./app/store";
 import { productThunk } from "./app/features/productController";
 import { authCheckThunk } from "./app/features/authenticationController";
